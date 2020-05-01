@@ -3,9 +3,9 @@ import Post from './Post'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 
-const FEED_QUERY = gql`
+const POST_FEED_QUERY = gql`
   {
-    feed {
+    postsFeed {
         id
         created_at
         attatchment_url
@@ -15,7 +15,7 @@ const FEED_QUERY = gql`
             first
             last
         }
-        comments {
+        post_comments {
             content
             created_at
             author {
@@ -23,7 +23,7 @@ const FEED_QUERY = gql`
                 last
             }
         }
-        claps {
+        post_claps {
             id
             author_id
             author {
@@ -43,11 +43,11 @@ const FEED_QUERY = gql`
 class PostList extends Component {
   render() {
     return (
-        <Query query={FEED_QUERY}>
+        <Query query={POST_FEED_QUERY}>
             {({ loading, error, data }) => {
                 if (loading) return <div>Fetching</div>
                 if (error) return <div>Error</div>
-                const postsToRender = data.feed
+                const postsToRender = data.postsFeed
                 return (
                     <div>
                         {postsToRender.map(post => <Post key={post.id} post={post} />)}
