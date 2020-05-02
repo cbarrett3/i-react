@@ -1,53 +1,68 @@
-// import React, { Component } from 'react'
+import React, { Component } from 'react'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
-// const POST_MUTATION = gql`
-//   mutation PostMutation($content: String!, $attatchment_url: String!,  $priv_post: Boolean) {
-//     post(content: $content, attatchment_url: $attatchment_url, priv_post: $priv_post) {
-//       id
-//       createdAt
-//       url
-//       description
-//     }
-//   }
+const CREATE_POST_MUTATION = gql`
+  mutation PostMutation($content: String!, $priv_post: Boolean) {
+    post(content: $content, priv_post: $priv_post) {
+      id
+      created_at
+      content
+      priv_post
+    }
+  }
+`
 
-// class CreatePost extends Component {
-//   state = {
-//     content: '',
-//     attatchment_url: '',
-//     priv_post: Boolean, 
-//   }
+class CreatePost extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      content: '',
+      priv_post: true
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-//   render() {
-//     const { content, attatchment_url, priv_post } = this.state
-//     return (
-//       <div>
-//         <div className="flex flex-column mt3">
-//           <input
-//             className="mb2"
-//             value={content}
-//             onChange={e => this.setState({ content: e.target.value })}
-//             type="text"
-//             placeholder="content of the post"
-//           />
-//           <input
-//             className="mb2"
-//             value={attatchment_url}
-//             onChange={e => this.setState({ attatchment_url: e.target.value })}
-//             type="text"
-//             placeholder="The URL for an optional post attatchment"
-//           />
-//          <input
-//             className="mb2"
-//             value={priv_post}
-//             onChange={e => this.setState({ priv_post: e.target.value })}
-//             type="text"
-//             placeholder="Boolean for whether or not post is private"
-//           />
-//      </div>
-//         <button onClick={`... you'll implement this 🔜`}>Submit</button>
-//       </div>
-//     )
-//   }
-// }
+  handleChange(event) {
+    this.setState({priv_post: event.target.value});
+  }
 
-// export default CreateLink
+  handleSubmit(event) {
+    alert('Your privacy selection for this post was: ' + this.state.priv_post);
+    event.preventDefault();
+  }
+
+  render() {
+    const { content, priv_post } = this.state
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div className="flex flex-column mt1">
+          <input
+            type="text"
+            className="mb2"
+            value={this.state.content}
+            onChange={e => this.setState({ content: e.target.value })}
+            placeholder="The content of the post"
+          />
+          <label>
+            Audience:
+            <select priv_post={this.state.priv_post} onChange={this.handleChange}>
+              <option selected priv_post={true}>Private</option>
+              <option priv_post={false}>Public</option>
+            </select>
+          </label>
+          </div>
+          <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
+            {/* {() => (
+              <input type="submit" value="Submit" />
+            )} */}
+            {createPostMutation => <button onClick={createPostMutation}>Submit</button>}
+          </Mutation>
+          {/* <input type="submit" value="Submit" /> */}
+      </form>
+    )
+  }
+}
+
+export default CreatePost
