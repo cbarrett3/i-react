@@ -21,7 +21,7 @@ class Home extends Component {
                 <QuestionList></QuestionList>
                 </div>
             </div>
-            <div class="fl w-100 w-25-ns">
+            <div class="fl w-100 w-25-ns dn-m">
                 <div class="pa2 bg-light-gray avenir">
                     Followers | Discover
                 </div>
