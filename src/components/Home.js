@@ -8,11 +8,11 @@ class Home extends Component {
       return (
         <div class="cf">
             <div class="fl w-100 w-25-ns">
-                <div class="pa2 bg-light-gray avenir">
+                <div class="pa1 bg-light-gray avenir">
                     Posts | Q & A
                 </div>
             </div>
-            <div class="fl w-100 w-50-ns">
+            <div class="fl w-100 w-50-ns w-75-m">
                 <div class="outline bg-white pv4">
                 <CreatePost></CreatePost>
                 <br></br>
@@ -22,7 +22,7 @@ class Home extends Component {
                 </div>
             </div>
             <div class="fl w-100 w-25-ns dn-m">
-                <div class="pa2 bg-light-gray avenir">
+                <div class="pa1 bg-light-gray avenir">
                     Followers | Discover
                 </div>
             </div>
