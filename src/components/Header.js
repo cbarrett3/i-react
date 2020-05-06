@@ -5,23 +5,23 @@ import { withRouter } from 'react-router'
 class Header extends Component {
   render() {
     return (
-      <div className="flex pa3 f4 justify-between nowrap gray avenir">
-        <div className="flex flex-fixed">
-          <Link to="/" className="ml1 b no-underline pink">
-            home
-          </Link>
-        </div>
-        <div className="fw7 mr1">
-            me
-        </div>
-        <div className="fw7 f4 mr1 green">
+      <div className="flex pv3 f4 justify-between nowrap gray avenir">
+        <div className="fw7 f4 mr3 green">
             The Juice
         </div>
-        <div className="fw7 mr1">
-            notifications
-        </div>
-        <div className="fw7 mr1">
-            more
+        <div className="flex">
+            <Link to="/" className="mr3 b no-underline pink">
+                Home
+            </Link>
+            <div className="fw7 mr3">
+                Profile
+            </div>
+            <div className="fw7 mr3">
+                Notifications
+            </div>
+            <div className="fw7 mr3">
+                More
+            </div>
         </div>
       </div>
     )

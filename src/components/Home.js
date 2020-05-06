@@ -9,8 +9,8 @@ class Home extends Component {
         <div class="cf">
             <div class="fl w-100 w-25-ns">
                 <div class="pa1 br3 bg-light-gray tc avenir">
-                    <a class="f5 link dim br-pill ph2 pv2 mb2 dib green bg-light-gray b" href="#0">Posts</a>
-                    <a class="f5 link dim br-pill ph2 pv2 mb2 dib gray bg-light-gray" href="#0"> Q & A</a>
+                    <a class="f5 link dim br-pill ph2 pv2 mb2 dib gray bg-light-gray" href="#0">Q & A</a>
+                    <a class="f5 link dim br-pill ph2 pv2 mb2 dib green bg-light-gray b" href="#0"> Posts </a>
                 </div>
             </div>
             <div class="fl w-100 w-50-ns w-75-m">
