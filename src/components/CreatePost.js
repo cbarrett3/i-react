@@ -37,7 +37,7 @@ class CreatePost extends Component {
     const { content, priv_post } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="flex flex-column mt1">
+        <div className="flex ph5 flex-column mt1">
           <input
             type="text"
             className="mb2"
@@ -52,13 +52,13 @@ class CreatePost extends Component {
               <option priv_post={false}>Public</option>
             </select>
           </label>
-          </div>
           <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
             {/* {() => (
               <input type="submit" value="Submit" />
             )} */}
             {createPostMutation => <button onClick={createPostMutation}>Submit</button>}
           </Mutation>
+        </div>
           {/* <input type="submit" value="Submit" /> */}
       </form>
     )

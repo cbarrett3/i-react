@@ -44,18 +44,20 @@ const QUESTION_FEED_QUERY = gql`
 class QuestionList extends Component {
   render() {
     return (
-        <Query query={QUESTION_FEED_QUERY}>
-            {({ loading, error, data }) => {
-                if (loading) return <div>Fetching</div>
-                if (error) return <div>Error</div>
-                const questionsToRender = data.questionsFeed
-                return (
-                    <div className="tl">
-                        {questionsToRender.map(question => <Question key={question.id} question={question} />)}
-                    </div>
-                )
-            }}
-        </Query>
+        <div className="ph3">
+            <Query query={QUESTION_FEED_QUERY}>
+                {({ loading, error, data }) => {
+                    if (loading) return <div>Fetching</div>
+                    if (error) return <div>Error</div>
+                    const questionsToRender = data.questionsFeed
+                    return (
+                        <div className="tl">
+                            {questionsToRender.map(question => <Question key={question.id} question={question} />)}
+                        </div>
+                    )
+                }}
+            </Query>
+        </div>
     )
   }
 }

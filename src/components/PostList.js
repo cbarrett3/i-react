@@ -43,18 +43,20 @@ const POST_FEED_QUERY = gql`
 class PostList extends Component {
   render() {
     return (
-        <Query query={POST_FEED_QUERY}>
-            {({ loading, error, data }) => {
-                if (loading) return <div>Fetching</div>
-                if (error) return <div>Error</div>
-                const postsToRender = data.postsFeed
-                return (
-                    <div className="tl">
-                        {postsToRender.map(post => <Post key={post.id} post={post} />)}
-                    </div>
-                )
-            }}
-        </Query>
+        <div className="ph3">
+            <Query query={POST_FEED_QUERY}>
+                {({ loading, error, data }) => {
+                    if (loading) return <div>Fetching</div>
+                    if (error) return <div>Error</div>
+                    const postsToRender = data.postsFeed
+                    return (
+                        <div className="tl">
+                            {postsToRender.map(post => <Post key={post.id} post={post} />)}
+                        </div>
+                    )
+                }}
+            </Query>
+        </div>
     )
   }
 }
