@@ -5,9 +5,9 @@ import { withRouter } from 'react-router'
 class Header extends Component {
   render() {
     return (
-      <div className="flex pa3 f5 justify-between nowrap gray avenir">
+      <div className="flex pa3 f4 justify-between nowrap gray avenir">
         <div className="flex flex-fixed">
-          <Link to="/" className="ml1 no-underline pink">
+          <Link to="/" className="ml1 b no-underline pink">
             home
           </Link>
         </div>

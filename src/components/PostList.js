@@ -49,7 +49,7 @@ class PostList extends Component {
                 if (error) return <div>Error</div>
                 const postsToRender = data.postsFeed
                 return (
-                    <div>
+                    <div className="tl">
                         {postsToRender.map(post => <Post key={post.id} post={post} />)}
                     </div>
                 )

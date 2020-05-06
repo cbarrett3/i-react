@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <div className="center w85">
         <Header />
-        <div className="pa1 bg-gray">
+        <div className="pa1">
           <Switch>
             <Route exact path="/" component={Home} />
             {/* <Route exact path="/profile" component={CreateLink} /> */}

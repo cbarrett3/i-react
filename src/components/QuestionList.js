@@ -50,7 +50,7 @@ class QuestionList extends Component {
                 if (error) return <div>Error</div>
                 const questionsToRender = data.questionsFeed
                 return (
-                    <div>
+                    <div className="tl">
                         {questionsToRender.map(question => <Question key={question.id} question={question} />)}
                     </div>
                 )
