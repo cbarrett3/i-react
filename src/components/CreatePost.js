@@ -37,32 +37,49 @@ class CreatePost extends Component {
     const { content, priv_post } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="flex ph3 flex-column">
-          <div class="pa1 tr">
+        <div className="flex flex-column ph3 mb3 avenir">
+          <div class="flex mb3">
+            <textarea id="post"
+              name="post" 
+              value={this.state.content} 
+              placeholder="What's good?" 
+              onChange={e => this.setState({ content: e.target.value })} 
+              className="db hover-black w-100 measure ba b--white" 
+              aria-describedby="post-content">
+            </textarea> 
+            <div class="ph2 lh-copy">
+              <span class="f6 db black">Crispy Barrett</span>
+              <span class="f6 db gray b">@crispy_101</span>
+            </div>
             <img
-              src="http://tachyons.io/img/logo.jpg"
-              class="br-pill h3 w3 dib" alt="avatar"/>
+                src="http://tachyons.io/img/logo.jpg"
+                class="br-pill h2-m w2-m h2 w2" alt="avatar">
+            </img>
           </div>
-          <h1 class="f5 f4-ns fw6 mid-gray">Crispy Barrett</h1>
-          <h2 class="f6 gray fw2 ttu tracked">Minneapolis</h2>
-          <textarea id="comment"
-            name="comment" 
-            value={this.state.content} 
-            placeholder="What's good?" 
-            onChange={e => this.setState({ content: e.target.value })} 
-            class="db border-box hover-black w-100 measure ba b--black-20 pa1 br2 mb2" 
-            aria-describedby="comment-desc">
-          </textarea>
-          <label>
-            Audience:
-            <select priv_post={this.state.priv_post} onChange={this.handleChange}>
-              <option selected priv_post={true}>Private</option>
-              <option priv_post={false}>Public</option>
-            </select>
-          </label>
-          <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
-            {createPostMutation => <a  className='f5 link dim br3 ph2 pv2 mb2 dib white bg-pink' href='#0' onClick={createPostMutation}>Submit</a>}
-          </Mutation>
+          <div class="flex justify-between">
+            <div class="measure pr5">
+              {/* <label for="name" class="f6 b db mb2">Add Tags <span class="normal black-60">(optional)</span></label> */}
+              <input id="name" class="input-reset w-100 ba b--white pv1" type="text" placeholder="Add Tags" aria-describedby="name-desc"/>
+              {/* <small id="name-desc" class="f6 black-60 db mb2">Helper text for the form control.</small> */}
+            </div>
+              <label>
+                {/* Audience: */}
+                <select priv_post={this.state.priv_post} onChange={this.handleChange}>
+                  <option selected priv_post={true}>Private</option>
+                  <option priv_post={false}>Public</option>
+                </select>
+              </label>
+          </div>
+          <div class="flex justify-between pv3">
+            <div>
+              <a  className='f5 link dim br-pill ph2 pv1 dib white bg-green avenir' href='#0'><b>x </b>Added Tag</a>
+            </div>
+            <div>
+              <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
+                {createPostMutation => <a  className='f5 link dim br2 ph3 pv2 white bg-pink avenir' href='#0' onClick={createPostMutation}>Post</a>}
+              </Mutation>
+            </div>
+          </div>
         </div>
       </form>
     )
