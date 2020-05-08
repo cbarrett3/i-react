@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import Post from './Post'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import recent from '../images/new-icon.svg'
-import fire from '../images/fire-icon.svg'
-import loved from '../images/most-loved.svg'
+import recent from '../images/new-colored.svg'
+import recent_gray from '../images/new-gray.svg'
+import hot from '../images/hot-colored.svg'
+import hot_gray from '../images/hot-gray.svg'
+import top from '../images/top-colored.svg'
+import top_gray from '../images/top-gray.svg'
 
 const POST_FEED_QUERY = gql`
   {
@@ -49,13 +52,20 @@ class PostList extends Component {
         <div className="ph3">
             <div className="flex justify-around nowrap br3 pv1 bg-light-gray">
                 <div>
-                    <img src={recent} class="mr2" alt="newicon"></img>
+                    {/* <nav class="pa3 pa4-ns">
+                        <a class="link dim black b f6 f5-ns dib mr3" href="#0" title="Home">Site Name</a>
+                        <a class="link dim gray f6 f5-ns dib mr3" href="#0" title="Home">Home</a>
+                        <a class="link dim gray f6 f5-ns dib mr3" href="#0" title="About">About</a>
+                        <a class="link dim gray f6 f5-ns dib mr3" href="#0" title="Store">Store</a>
+                        <a class="link dim gray f6 f5-ns dib" href="#0" title="Contact">Contact</a>
+                    </nav> */}
+                    <img src={recent} class="mr2 dim" alt="new"></img>
                 </div>
                 <div>
-                    <img src={fire} class="mr2" alt="fire"></img>
+                    <img src={hot_gray} class="mr2" alt="hot"></img>
                 </div>
                 <div>
-                    <img src={loved} class="mr2" alt="loved"></img>
+                    <img src={top_gray} class="mr2 " alt="top"></img>
                 </div>
             </div>
             <Query query={POST_FEED_QUERY}>
