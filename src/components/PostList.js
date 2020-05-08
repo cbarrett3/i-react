@@ -44,6 +44,17 @@ class PostList extends Component {
   render() {
     return (
         <div className="ph3">
+            <div className="flex justify-around br3 pv2 bg-green">
+                <div>
+                    new
+                </div>
+                <div>
+                    hot
+                </div>
+                <div>
+                    top
+                </div>
+            </div>
             <Query query={POST_FEED_QUERY}>
                 {({ loading, error, data }) => {
                     if (loading) return <div>Fetching</div>
