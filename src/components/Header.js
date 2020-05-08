@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
-import juice from '../images/watermelon.svg'; // with import
-import home from '../images/home.svg'; // with import
+import juice from '../images/watermelon.svg'; 
 
 
 
@@ -10,7 +9,7 @@ class Header extends Component {
   render() {
     return (
       <div className="flex f4 mt3 justify-around nowrap gray helvetica">
-        <Link to="/" className="mr3 b no-underline pink">
+        <Link to="/" className="App-logo mr3 b no-underline pink">
             home
             {/* <img src={home} class="mr2" alt="juicelogo"></img> */}
         </Link>

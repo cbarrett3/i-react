@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import '../styles/CreatePost.css';
 
 const CREATE_POST_MUTATION = gql`
   mutation PostMutation($content: String!, $priv_post: Boolean) {
@@ -37,14 +38,15 @@ class CreatePost extends Component {
     const { content, priv_post } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="flex flex-column ph3 mb3 helvetica">
-          <div class="flex mb3">
-            <textarea id="post"
+        <div className="flex flex-column ph3 mb1 helvetica">
+          <div class="flex mb1">
+            <textarea 
+              id="post"
               name="post" 
               value={this.state.content} 
               placeholder="What's good?" 
               onChange={e => this.setState({ content: e.target.value })} 
-              className="db hover-black w-100 measure ba b--white" 
+              className="db f4 hover-black w-100 measure ba b--white"
               aria-describedby="post-content">
             </textarea> 
             <div class="ph2 lh-copy">

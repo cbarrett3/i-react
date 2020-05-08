@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PostList from './PostList'
 import Home from './Home'
 import Header from './Header'
 import Footer from './Footer'

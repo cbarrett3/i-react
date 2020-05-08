@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import Post from './Post'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
+import recent from '../images/new-icon.svg'
+import fire from '../images/fire-icon.svg'
+import loved from '../images/most-loved.svg'
 
 const POST_FEED_QUERY = gql`
   {
@@ -44,15 +47,15 @@ class PostList extends Component {
   render() {
     return (
         <div className="ph3">
-            <div className="flex justify-around br3 pv2 bg-green">
+            <div className="flex justify-around nowrap br3 pv1 bg-light-gray">
                 <div>
-                    new
+                    <img src={recent} class="mr2" alt="newicon"></img>
                 </div>
                 <div>
-                    hot
+                    <img src={fire} class="mr2" alt="fire"></img>
                 </div>
                 <div>
-                    top
+                    <img src={loved} class="mr2" alt="loved"></img>
                 </div>
             </div>
             <Query query={POST_FEED_QUERY}>
