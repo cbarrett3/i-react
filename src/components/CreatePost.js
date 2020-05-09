@@ -48,7 +48,7 @@ class CreatePost extends Component {
             </img>
             <div class="lh-copy">
               <span class="f5 db b black mh2">Crispy Barrett</span>
-              <span class="f6 db gray b mh2">@crispy_101</span>
+              <span class="f6 db gray mh2">@crispy_101</span>
             </div>
               <textarea 
                 id="post"
@@ -61,8 +61,8 @@ class CreatePost extends Component {
               </textarea> 
           </div>
           <div class="flex justify-between">
-            <div class="measure ph1">
-              <input id="name" class="input-reset w-100 f6 ba b--white" type="text" placeholder="Add Tags" aria-describedby="name-desc"/>
+            <div class="measure ph2">
+              <input id="name" class="input-reset w-100 f5 ba b--white" type="text" placeholder="Add Tags" aria-describedby="name-desc"/>
             </div>
             <label>
               <select priv_post={this.state.priv_post} class="select-css" onChange={this.handleChange}>
