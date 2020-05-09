@@ -38,7 +38,7 @@ class CreatePost extends Component {
     const { content, priv_post } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="flex flex-column ph3 mb1 helvetica">
+        <div className="flex flex-column ph3 mb2 helvetica">
           <div class="flex mb1">
             <textarea 
               id="post"
@@ -74,7 +74,14 @@ class CreatePost extends Component {
           </div>
           <div class="flex justify-between pv3">
             <div>
-              <a  className='f5 link dim br-pill ph2 pv1 dib white bg-green helvetica' href='#0'><b>x </b>Added Tag</a>
+              <a className='f5 link dim br-pill pv1 ph2 mr2 dib white bg-green helvetica' href='#0'>
+                <b>x </b>
+                Added Tag
+              </a>
+              <a className='f5 link dim br-pill pv1 ph2 mr2 dib white bg-green helvetica' href='#0'>
+                <b>x </b>
+                Added Tag 2
+              </a>
             </div>
             <div>
               <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>

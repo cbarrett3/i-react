@@ -47,42 +47,54 @@ const POST_FEED_QUERY = gql`
 `
 
 class PostList extends Component {
-  render() {
-    return (
-        <div className="ph3">
-            <div className="flex justify-around nowrap br3 pv1 bg-light-gray">
-                <div>
-                    {/* <nav class="pa3 pa4-ns">
-                        <a class="link dim black b f6 f5-ns dib mr3" href="#0" title="Home">Site Name</a>
-                        <a class="link dim gray f6 f5-ns dib mr3" href="#0" title="Home">Home</a>
-                        <a class="link dim gray f6 f5-ns dib mr3" href="#0" title="About">About</a>
-                        <a class="link dim gray f6 f5-ns dib mr3" href="#0" title="Store">Store</a>
-                        <a class="link dim gray f6 f5-ns dib" href="#0" title="Contact">Contact</a>
-                    </nav> */}
-                    <img src={recent} class="mr2 dim" alt="new"></img>
+    constructor(props) {
+        super(props)
+        this.state = {
+            content: '',
+            newSort: true,
+            hotSort: false,
+            topSort: false
+        }
+    }
+
+    render() {
+        return (
+            <div className="ph3">
+                <div className="flex justify-around nowrap br3 pv1 bg-light-gray">
+                    <div>
+                        { !this.state.newSort
+                            ? <img src={recent_gray} class="mr2 dim" alt="new" style={{cursor: "pointer"}} onClick={()=>this.setState({ newSort: true, hotSort: false, topSort: false })}></img>
+                            : <img src={recent} class="mr2" alt="new" onClick={()=>this.setState({ newSort: true })}></img>
+                        }
+                    </div>
+                    <div>
+                        { !this.state.hotSort
+                            ? <img src={hot_gray} class="mr2 dim" alt="hot" style={{cursor: "pointer"}} onClick={()=>this.setState({ hotSort: true, newSort: false, topSort: false })}></img>
+                            : <img src={hot} class="mr2" alt="hot" onClick={()=>this.setState({ hotSort: true })}></img>
+                        } 
+                    </div>
+                    <div>
+                        { !this.state.topSort
+                            ? <img src={top_gray} class="mr2 dim" alt="top" style={{cursor: "pointer"}} onClick={()=>this.setState({ topSort: true, newSort: false, hotSort: false })}></img>
+                            : <img src={top} class="mr2" alt="top" onClick={()=>this.setState({ topSort: true })}></img>
+                        } 
+                    </div>
                 </div>
-                <div>
-                    <img src={hot_gray} class="mr2" alt="hot"></img>
-                </div>
-                <div>
-                    <img src={top_gray} class="mr2 " alt="top"></img>
-                </div>
+                <Query query={POST_FEED_QUERY}>
+                    {({ loading, error, data }) => {
+                        if (loading) return <div>Fetching</div>
+                        if (error) return <div>Error</div>
+                        const postsToRender = data.postsFeed
+                        return (
+                            <div className="tl">
+                                {postsToRender.map(post => <Post key={post.id} post={post} />)}
+                            </div>
+                        )
+                    }}
+                </Query>
             </div>
-            <Query query={POST_FEED_QUERY}>
-                {({ loading, error, data }) => {
-                    if (loading) return <div>Fetching</div>
-                    if (error) return <div>Error</div>
-                    const postsToRender = data.postsFeed
-                    return (
-                        <div className="tl">
-                            {postsToRender.map(post => <Post key={post.id} post={post} />)}
-                        </div>
-                    )
-                }}
-            </Query>
-        </div>
-    )
-  }
+        )
+    }
 }
 
 export default PostList
