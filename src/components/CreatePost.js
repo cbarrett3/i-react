@@ -39,53 +39,48 @@ class CreatePost extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="flex flex-column ph3 mb1 helvetica">
-          <div class="flex mb1">
-            <textarea 
-              id="post"
-              name="post" 
-              value={this.state.content} 
-              placeholder="What's good?" 
-              onChange={e => this.setState({ content: e.target.value })} 
-              className="db f4 hover-black w-100 measure ba b--white"
-              aria-describedby="post-content">
-            </textarea> 
-            <div class="ph2 lh-copy">
-              <span class="f6 db black">Crispy Barrett</span>
-              <span class="f6 db gray b">@crispy_101</span>
-            </div>
+          <div class="flex mb2">
+            {/* <div class="w-50">
+            </div> */}
             <img
                 src="http://tachyons.io/img/logo.jpg"
-                class="br-pill h2-m w2-m h2 w2" alt="avatar">
+                class="br-pill h2-m w2-m h2 w2 mt1 mr1" alt="avatar">
             </img>
-          </div>
-          <div class="flex justify-between mb1">
-            <div class="measure pr1">
-              {/* <label for="name" class="f6 b db mb2">Add Tags <span class="normal black-60">(optional)</span></label> */}
-              <input id="name" class="input-reset w-100 ba b--white pv1" type="text" placeholder="Add Tags" aria-describedby="name-desc"/>
-              {/* <small id="name-desc" class="f6 black-60 db mb2">Helper text for the form control.</small> */}
+            <div class="lh-copy">
+              <span class="f5 db b black mh2">Crispy Barrett</span>
+              <span class="f6 db gray b mh2">@crispy_101</span>
             </div>
-              <label>
-                {/* Audience: */}
-                <select priv_post={this.state.priv_post} class="select-css" onChange={this.handleChange}>
-                  <option selected priv_post={true}>Private </option>
-                  <option priv_post={false}>Public </option>
-                </select>
-              </label>
+              <textarea 
+                id="post"
+                name="post" 
+                value={this.state.content} 
+                placeholder="What's good?" 
+                onChange={e => this.setState({ content: e.target.value })} 
+                className="db f4 hover-black w-60 measure ba b--white ph2"
+                aria-describedby="post-content">
+              </textarea> 
           </div>
-          <div class="flex justify-between mt2">
+          <div class="flex justify-between">
+            <div class="measure ph1">
+              <input id="name" class="input-reset w-100 f6 ba b--white" type="text" placeholder="Add Tags" aria-describedby="name-desc"/>
+            </div>
+            <label>
+              <select priv_post={this.state.priv_post} class="select-css" onChange={this.handleChange}>
+                <option selected priv_post={true}>Private </option>
+                <option priv_post={false}>Public </option>
+              </select>
+            </label>
+          </div>
+          <div class="flex justify-between">
             <div>
-              <a className='f5 link dim br-pill pv2 ph3 mr1 mt1 dib white bg-green helvetica' href='#0'>
+              <a className='f6 link dim br-pill pv2 ph2 ma1 dib white bg-green helvetica' href='#0'>
                 <b>x </b>
                 Added Tag
               </a>
-              <a className='f5 link dim br-pill pv2 ph3 mr1 mt1 dib white bg-green helvetica' href='#0'>
-                <b>x </b>
-                Added Tag 2
-              </a>
             </div>
-            <div>
+            <div class="mt3">
               <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
-                {createPostMutation => <a  className='f4 link dim br-pill ph3 pv2 white bg-pink helvetica' href='#0' onClick={createPostMutation}>Post</a>}
+                {createPostMutation => <a  className='f5 link dim br-pill ph3 pv2 white bg-pink helvetica' href='#0' onClick={createPostMutation}>Post</a>}
               </Mutation>
             </div>
           </div>

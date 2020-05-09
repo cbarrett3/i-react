@@ -20,6 +20,7 @@ const POST_FEED_QUERY = gql`
         author {
             first
             last
+            username
         }
         post_comments {
             content
@@ -27,6 +28,7 @@ const POST_FEED_QUERY = gql`
             author {
                 first
                 last
+                username
             }
         }
         post_claps {
@@ -35,6 +37,7 @@ const POST_FEED_QUERY = gql`
             author {
                 first
                 last
+                username
             }
         }
         post_tags {
@@ -59,24 +62,24 @@ class PostList extends Component {
 
     render() {
         return (
-            <div className="ph3">
-                <div className="flex justify-around nowrap br3 pv1 bg-light-gray">
+            <div className="bb bl br b--black-10">
+                <div className="flex justify-around nowrap ph3 pv1 bg-light-gray">
                     <div>
                         { !this.state.newSort
-                            ? <img src={recent_gray} class="mr2 dim" alt="new" style={{cursor: "pointer"}} onClick={()=>this.setState({ newSort: true, hotSort: false, topSort: false })}></img>
-                            : <img src={recent} class="mr2" alt="new" onClick={()=>this.setState({ newSort: true })}></img>
+                            ? <img src={recent_gray} class="dim" alt="new" style={{cursor: "pointer"}} onClick={()=>this.setState({ newSort: true, hotSort: false, topSort: false })}></img>
+                            : <img src={recent} alt="new" onClick={()=>this.setState({ newSort: true })}></img>
                         }
                     </div>
                     <div>
                         { !this.state.hotSort
-                            ? <img src={hot_gray} class="mr2 dim" alt="hot" style={{cursor: "pointer"}} onClick={()=>this.setState({ hotSort: true, newSort: false, topSort: false })}></img>
-                            : <img src={hot} class="mr2" alt="hot" onClick={()=>this.setState({ hotSort: true })}></img>
+                            ? <img src={hot_gray} class="dim" alt="hot" style={{cursor: "pointer"}} onClick={()=>this.setState({ hotSort: true, newSort: false, topSort: false })}></img>
+                            : <img src={hot} alt="hot" onClick={()=>this.setState({ hotSort: true })}></img>
                         } 
                     </div>
                     <div>
                         { !this.state.topSort
-                            ? <img src={top_gray} class="mr2 dim" alt="top" style={{cursor: "pointer"}} onClick={()=>this.setState({ topSort: true, newSort: false, hotSort: false })}></img>
-                            : <img src={top} class="mr2" alt="top" onClick={()=>this.setState({ topSort: true })}></img>
+                            ? <img src={top_gray} class="dim" alt="top" style={{cursor: "pointer"}} onClick={()=>this.setState({ topSort: true, newSort: false, hotSort: false })}></img>
+                            : <img src={top} alt="top" onClick={()=>this.setState({ topSort: true })}></img>
                         } 
                     </div>
                 </div>

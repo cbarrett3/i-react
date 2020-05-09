@@ -20,7 +20,7 @@ class Home extends Component {
                     <br/>
                     <PostList></PostList>
                     <br/>
-                    <QuestionList></QuestionList>
+                    {/* <QuestionList></QuestionList> */}
                 </div>
             </div>
             <div class="fl w-100 w-25-ns br3 dn-m bg-light-gray">
