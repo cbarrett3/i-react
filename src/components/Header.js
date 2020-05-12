@@ -38,7 +38,7 @@ class Header extends Component {
                     logout
                 </div>
             ): ( 
-                <Link to="/login" className="mr3 gray b no-underline">
+                <Link to="/" className="mr3 gray b no-underline">
                     login
                 </Link>
             )}

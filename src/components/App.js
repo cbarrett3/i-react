@@ -8,15 +8,24 @@ import { Switch, Route } from 'react-router-dom'
 class App extends Component {
   render() {
     return (
+      // <div className="center w85">
+      //   <Header />
+      //   <div className="pa1">
+      //     <Switch>
+      //       <Route exact path="/home" component={Home} />
+      //       <Route exact path="/login" component={Login} />
+      //     </Switch>
+      //   </div>
+      //   <Footer/>
+      // </div >
       <div className="center w85">
-        <Header />
-        <div className="pa1">
-          <Switch>
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/login" component={Login} />
-          </Switch>
-        </div>
-        <Footer/>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route component={Header} />
+          <Footer/>
+        </Switch>
+        <Route exact path="/home" component={Home} />
+        {/* <Route exact path="/login" component={Login} /> */}
       </div >
     )
   }
