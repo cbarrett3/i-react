@@ -12,7 +12,7 @@ class Post extends Component {
     console.log(this.props)
     return (
       <div>
-        <div className="flex flex-column mt1 ph3 pb3 helvetica bb b--black-10">
+        <div className="flex flex-column pt3 ph3 helvetica bb b--black-10">
           <div className="flex w-100">
             <img
                 src="http://tachyons.io/img/logo.jpg"
@@ -31,7 +31,7 @@ class Post extends Component {
               {this.state.timeago}
             </a>
           </div>
-          <div class="flex w-90 pt1 ml4 ph2">
+          <div class="flex w-90 ml4 ph2 pb3">
               {this.props.post.content}
           </div>
         </div>
