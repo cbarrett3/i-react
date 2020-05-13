@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { AUTH_TOKEN } from '../constants'
+import logo from '../images/juice-logo-white.svg'; 
 
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation($email: String!, $username: String!, $first: String!, $last: String!, $password: String!) {
@@ -32,8 +33,24 @@ class Login extends Component {
   render() {
     const { login, first, last, username, email, password} = this.state
     return (
-      <div>
-        <h4 className="mv3">{login ? 'Login' : 'Sign Up'}</h4>
+      <div className="bg-pink br3 mt5">
+        <div class="mw9 center ph3-ns">
+          <div class="cf ph2-ns">
+            <div class="fl w-100 w-25-ns pt1 dn-m">
+              <div class="outline bg-white pv4">red line w lock</div>
+            </div>
+            <div class="fl w-100 w-50-ns w-100-m pt1">
+              <div class="outline bg-white pv4"></div>
+            </div>
+            <div class="fl w-100 w-25-ns pt1 dn-m">
+              <div class="outline bg-white pv4">blue line w earth</div>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-center mt5">
+          <img src={logo} alt="juicelogo"></img>
+        </div>
+        {/* <h4 className="mv3">{login ? 'Login' : 'Sign Up'}</h4> */}
         <div className="flex flex-column">
             {!login && (
                 <input
