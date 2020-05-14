@@ -96,9 +96,18 @@ class Login extends Component {
                 onChange={e => this.setState({ password: e.target.value })}
                 type="password"
                 class="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
-                placeholder="Choose a Password"
+                placeholder="Password"
               />
             )}
+            {/* {!login && (
+              <input
+                value={password}
+                onChange={e => this.setState({ password: e.target.value })}
+                type="password"
+                class="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
+                placeholder="Confirm Password"
+              />
+            )} */}
           </div>
           <div className="flex flex-column mt3 items-center justify-center">
             <Mutation
@@ -112,7 +121,7 @@ class Login extends Component {
                 </div>
               )}
             </Mutation>
-            <div class="pointer ph3 pv2 input-reset br3 white grow f6" onClick={() => this.setState({ login: !login })}>
+            <div class="pointer ph3 pv3 input-reset br3 white grow f6" onClick={() => this.setState({ login: !login })}>
               {login && (<div>Need to sign up? <b>Create Account</b></div>)}
               {!login && (<div>Already have an account? <b>Sign In</b></div>)}
             </div>

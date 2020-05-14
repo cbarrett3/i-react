@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Mutation } from 'react-apollo'
+import { Mutation, Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import '../styles/CreatePost.css';
 
@@ -14,19 +14,31 @@ const CREATE_POST_MUTATION = gql`
   }
 `
 
+const LOGGED_IN_USER_QUERY = gql`
+  {
+    getLoggedInUser {
+      id
+      first
+      last
+      username
+      profile_pic_url
+    }
+  }
+`
+
 class CreatePost extends Component {
   constructor(props) {
     super(props)
     this.state = {
       content: '',
-      priv_post: true
+      priv_post: true,
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({priv_post: event.target.value});
+    this.setState({ priv_post: event.target.value });
   }
 
   handleSubmit(event) {
@@ -37,55 +49,63 @@ class CreatePost extends Component {
   render() {
     const { content, priv_post } = this.state
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="flex flex-column ph3 mb1 helvetica">
-          <div class="flex mb2">
-            {/* <div class="w-50">
-            </div> */}
-            <img
-                src="http://tachyons.io/img/logo.jpg"
-                class="br-pill h2-m w2-m h2 w2 mt1 mr1" alt="avatar">
-            </img>
-            <div class="lh-copy">
-              <span class="f5 db b black mh2">Crispy Barrett</span>
-              <span class="f6 db gray mh2">@crispy_101</span>
-            </div>
-              <textarea 
-                id="post"
-                name="post" 
-                value={this.state.content} 
-                placeholder="What's good?" 
-                onChange={e => this.setState({ content: e.target.value })} 
-                className="db f4 hover-black w-60 measure ba b--white ph2"
-                aria-describedby="post-content">
-              </textarea> 
-          </div>
-          <div class="flex justify-between">
-            <div class="measure ph2">
-              <input id="name" class="input-reset w-100 f5 ba b--white" type="text" placeholder="Add Tags" aria-describedby="name-desc"/>
-            </div>
-            <label>
-              <select priv_post={this.state.priv_post} class="select-css" onChange={this.handleChange}>
-                <option selected priv_post={true}>Private </option>
-                <option priv_post={false}>Public </option>
-              </select>
-            </label>
-          </div>
-          <div class="flex justify-between">
-            <div>
-              <a className='f6 link dim br-pill pv2 ph2 ma1 dib white bg-green helvetica' href='#0'>
-                <b>x </b>
-                Added Tag
-              </a>
-            </div>
-            <div class="mt3">
-              <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
-                {createPostMutation => <a  className='f5 link dim br-pill ph3 pv2 white bg-pink helvetica' href='#0' onClick={createPostMutation}>Post</a>}
-              </Mutation>
-            </div>
-          </div>
-        </div>
-      </form>
+      <Query query={LOGGED_IN_USER_QUERY}>
+        {({ loading, error, data }) => {
+          if (loading) return <div>Fetching</div>
+          if (error) return <div>Error</div>
+          const user = data.getLoggedInUser
+          console.log(data.getLoggedInUser)
+          return (
+            <form onSubmit={this.handleSubmit}>
+              <div className="flex flex-column ph3 mb1 helvetica">
+                <div class="flex mb2">
+                  <img
+                    src="http://tachyons.io/img/logo.jpg"
+                    class="br-pill h2-m w2-m h2 w2 mt1 mr1" alt="avatar">
+                  </img>
+                  <div class="lh-copy">
+                    <span class="f5 db b black mh2">{user.first} {user.last}</span>
+                    <span class="f6 db gray mh2">@{user.username}</span>
+                  </div>
+                  <textarea
+                    id="post"
+                    name="post"
+                    value={this.state.content}
+                    placeholder="What's good?"
+                    onChange={e => this.setState({ content: e.target.value })}
+                    className="db f4 hover-black w-60 measure ba b--white ph2"
+                    aria-describedby="post-content">
+                  </textarea>
+                </div>
+                <div class="flex justify-between">
+                  <div class="measure ph2">
+                    <input id="name" class="input-reset w-100 f5 ba b--white" type="text" placeholder="Add Tags" aria-describedby="name-desc" />
+                  </div>
+                  <label>
+                    <select priv_post={this.state.priv_post} class="select-css" onChange={this.handleChange}>
+                      <option selected priv_post={true}>Private </option>
+                      <option priv_post={false}>Public </option>
+                    </select>
+                  </label>
+                </div>
+                <div class="flex justify-between">
+                  <div>
+                    <a className='f6 link dim br-pill pv2 ph2 ma1 dib white bg-green helvetica' href='#0'>
+                      <b>x </b>
+                    Added Tag
+                  </a>
+                  </div>
+                  <div class="mt3">
+                    <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
+                      {createPostMutation => <a className='f5 link dim br-pill ph3 pv2 white bg-pink helvetica' href='#0' onClick={createPostMutation}>Post</a>}
+                    </Mutation>
+                  </div>
+                </div>
+              </div>
+            </form>
+          )
+        }}
+      </Query>
     )
   }
 }
