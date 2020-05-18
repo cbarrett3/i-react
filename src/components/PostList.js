@@ -66,19 +66,19 @@ class PostList extends Component {
                 <div className="flex justify-around nowrap ph3 pv1 bg-light-gray">
                     <div>
                         { !this.state.newSort
-                            ? <img src={recent_gray} class="dim" alt="new" style={{cursor: "pointer"}} onClick={()=>this.setState({ newSort: true, hotSort: false, topSort: false })}></img>
+                            ? <img src={recent_gray} className="dim" alt="new" style={{cursor: "pointer"}} onClick={()=>this.setState({ newSort: true, hotSort: false, topSort: false })}></img>
                             : <img src={recent} alt="new" onClick={()=>this.setState({ newSort: true })}></img>
                         }
                     </div>
                     <div>
                         { !this.state.hotSort
-                            ? <img src={hot_gray} class="dim" alt="hot" style={{cursor: "pointer"}} onClick={()=>this.setState({ hotSort: true, newSort: false, topSort: false })}></img>
+                            ? <img src={hot_gray} className="dim" alt="hot" style={{cursor: "pointer"}} onClick={()=>this.setState({ hotSort: true, newSort: false, topSort: false })}></img>
                             : <img src={hot} alt="hot" onClick={()=>this.setState({ hotSort: true })}></img>
                         } 
                     </div>
                     <div>
                         { !this.state.topSort
-                            ? <img src={top_gray} class="dim" alt="top" style={{cursor: "pointer"}} onClick={()=>this.setState({ topSort: true, newSort: false, hotSort: false })}></img>
+                            ? <img src={top_gray} className="dim" alt="top" style={{cursor: "pointer"}} onClick={()=>this.setState({ topSort: true, newSort: false, hotSort: false })}></img>
                             : <img src={top} alt="top" onClick={()=>this.setState({ topSort: true })}></img>
                         } 
                     </div>

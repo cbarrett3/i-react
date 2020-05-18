@@ -36,13 +36,13 @@ class Login extends Component {
     const { login, first, last, username, email, password } = this.state
     return (
       <div className="">
-        <div class="fl w-100 w-20-ns pt1 dn-m bl bw4 b--pink h5" style={{ borderColor: '#fd5956', height: '100vh' }}>
-          <div class="pv4">
+        <div className="fl w-100 w-20-ns pt1 dn-m bl bw4 b--pink h5" style={{ borderColor: '#fd5956', height: '100vh' }}>
+          <div className="pv4">
             <br></br>
             <img src={lock} alt="lock"></img>
           </div>
         </div>
-        <div class="fl w-100 w-60-ns w-100-m br3 bg-pink 5h mt5" style={{ backgroundColor: '#fd5956', minHeight: '75vh' }}>
+        <div className="fl w-100 w-60-ns w-100-m br3 bg-pink 5h mt5" style={{ backgroundColor: '#fd5956', minHeight: '75vh' }}>
           <div className="flex items-center justify-center mt3">
             <img src={logo} alt="juicelogo"></img>
           </div>
@@ -52,7 +52,7 @@ class Login extends Component {
                 value={first}
                 onChange={e => this.setState({ first: e.target.value })}
                 type="text"
-                class="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
+                className="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
                 placeholder="First Name"
               />
             )}
@@ -61,7 +61,7 @@ class Login extends Component {
                 value={last}
                 onChange={e => this.setState({ last: e.target.value })}
                 type="text"
-                class="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
+                className="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
                 placeholder="Last Name"
               />
             )}
@@ -70,7 +70,7 @@ class Login extends Component {
                 value={email}
                 onChange={e => this.setState({ email: e.target.value })}
                 type="email"
-                class="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
+                className="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
                 placeholder="Email"
               />
             )}
@@ -78,7 +78,7 @@ class Login extends Component {
               value={username}
               onChange={e => this.setState({ username: e.target.value })}
               type="text"
-              class="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
+              className="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
               placeholder="Username"
             />
             {login && (
@@ -86,7 +86,7 @@ class Login extends Component {
                 value={password}
                 onChange={e => this.setState({ password: e.target.value })}
                 type="password"
-                class="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
+                className="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
                 placeholder="Password"
               />
             )}
@@ -95,7 +95,7 @@ class Login extends Component {
                 value={password}
                 onChange={e => this.setState({ password: e.target.value })}
                 type="password"
-                class="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
+                className="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
                 placeholder="Password"
               />
             )}
@@ -104,7 +104,7 @@ class Login extends Component {
                 value={password}
                 onChange={e => this.setState({ password: e.target.value })}
                 type="password"
-                class="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
+                className="pa2 input-reset br3 b-none bg-white w-100 measure mb3"
                 placeholder="Confirm Password"
               />
             )} */}
@@ -116,18 +116,18 @@ class Login extends Component {
               onCompleted={data => this._confirm(data)}
             >
               {mutation => (
-                <div class="pointer mr2 mb2 ph3 pv2 input-reset br3 white grow f6" style={{ backgroundColor: '#3ddf9b'}} onClick={mutation}>
+                <div className="pointer mr2 mb2 ph3 pv2 input-reset br3 white grow f6" style={{ backgroundColor: '#3ddf9b'}} onClick={mutation}>
                   {login ? 'Sign In' : 'Create Account'}
                 </div>
               )}
             </Mutation>
-            <div class="pointer ph3 pv3 input-reset br3 white grow f6" onClick={() => this.setState({ login: !login })}>
+            <div className="pointer ph3 pv3 input-reset br3 white grow f6" onClick={() => this.setState({ login: !login })}>
               {login && (<div>Need to sign up? <b>Create Account</b></div>)}
               {!login && (<div>Already have an account? <b>Sign In</b></div>)}
             </div>
           </div>
         </div>
-        <div class="fl w-100 w-20-ns dn-m br bw4 h5" style={{ color: '#08bbe1', height: '100vh' }}>
+        <div className="fl w-100 w-20-ns dn-m br bw4 h5" style={{ color: '#08bbe1', height: '100vh' }}>
           <img src={earth} alt="earth" style={{ marginTop: '50vh' }}></img>
         </div>
       </div>

@@ -9,14 +9,13 @@ class Post extends Component {
     }
   }
   render() {
-    console.log(this.props)
     return (
       <div>
         <div className="flex flex-column pt3 ph3 helvetica bb b--black-10">
           <div className="flex w-100">
             <img
                 src="http://tachyons.io/img/logo.jpg"
-                class="br-pill h2-m w2-m h2 w2 mr2" alt="avatar">
+                className="br-pill h2-m w2-m h2 w2 mr2" alt="avatar">
             </img>
             <a className="link b f5 black pr2" href="#0">
               {this.props.post.author.first} {this.props.post.author.last}
@@ -31,7 +30,7 @@ class Post extends Component {
               {this.state.timeago}
             </a>
           </div>
-          <div class="flex w-90 ml4 ph2 pb3">
+          <div className="flex w-90 ml4 ph2 pb3">
               {this.props.post.content}
           </div>
         </div>
