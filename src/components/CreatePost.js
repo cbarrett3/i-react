@@ -13,6 +13,15 @@ const CREATE_POST_MUTATION = gql`
   }
 `
 
+const CREATE_TAG_MUTATION = gql`
+  mutation CreateTagMutation($tag: String!) {
+    createTag(tag: $tag) {
+      id
+      tag                                     
+    }
+  }
+`
+
 const LOGGED_IN_USER = gql`
   {
     getLoggedInUser {
@@ -31,22 +40,26 @@ class CreatePost extends Component {
     this.state = {
       content: '',
       priv_post: false,
+      tag: '',
+      tags: []
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.addTagtoTags = this.addTagtoTags.bind(this)
   }
 
-  handleChange(event) {
-    this.setState({ priv_post: event.target.value });
-  }
-
-  handleSubmit(event) {
-    alert('Your privacy selection for this post was: ' + this.state.priv_post);
-    event.preventDefault();
+  // updateTag(event) {
+  //   this.setState({tag: event.target.value})
+  // }
+  addTagtoTags() {
+    console.log(this.state.tag)
+    var tags = this.state.tags
+    tags = tags.concat(this.state.tag)
+    console.log(tags)
+    this.setState({tags: tags})
   }
 
   render() {
-    const { content, priv_post } = this.state
+    const { content, priv_post, tag, tags } = this.state
+    console.log(tags)
     return (
       <Query query={LOGGED_IN_USER}>
         {({ loading, error, data }) => {
@@ -60,7 +73,7 @@ class CreatePost extends Component {
                   src="http://tachyons.io/img/logo.jpg"
                   className="br-pill h2-m w2-m h2 w2 mt1 mr1" alt="avatar">
                 </img>
-                <div className="lh-copy">
+                <div className="">
                   <span className="f5 db b black mh2">{user.first} {user.last}</span>
                   <span className="f6 db gray mh2">@{user.username}</span>
                 </div>
@@ -75,22 +88,38 @@ class CreatePost extends Component {
                 </textarea>
               </div>
               <div className="flex justify-between">
-                <div className="measure ph2">
-                  <input id="name" className="input-reset w-100 f5 ba b--white" type="text" placeholder="Add Tags" aria-describedby="name-desc" />
+                <div className="">
+                    <input id="tag" className="input-reset f5 ba b--white" onChange={e => this.setState({ tag: e.target.value })} type="text" placeholder="Add Tag" aria-describedby="name-desc" />
+                    {tag !== '' && (
+                      // <Mutation mutation={CREATE_TAG_MUTATION} variables={{ tag }}>
+                      //   {createTagMutation => 
+                          <a className="link flex" type="button" href="#0">
+                            <h1 className="f6 fw6 ttu tracked green" onClick={this.addTagtoTags}>Add Tag</h1>
+                          </a>
+                      // </Mutation>
+                    )}
                 </div>
-                <label>
-                  <select className="select-css" onChange={this.handleChange}>
-                    <option defaultValue priv_post="false">Public</option>
-                    <option priv_post="true">Private </option>
-                  </select>
-                </label>
+                <div>
+                  <label className="">
+                    <select className="select-css" onChange={e => this.setState({ priv_post: e.target.value })}>
+                      <option defaultValue priv_post="false">Public</option>
+                      <option priv_post="true">Private </option>
+                    </select>
+                  </label>
+                </div>
               </div>
               <div className="flex justify-between">
-                <div>
-                  <a className='f6 link dim br-pill pv2 ph2 ma1 dib white bg-green helvetica' href='#0'>
-                    <b>x </b>
-                    Added Tag
-                  </a>
+                <div className="" id="tags">
+                {/* <div className="tl">
+                                {postsToRender.map(post => <Post key={post.id} post={post} />)}
+                            </div> */}
+                  {tags.map(tag =>
+                    <a className='f6 link dim br-pill pv2 ph2 mt1 mr1 dib white bg-green helvetica' href='#0'>
+                      <b>x </b>
+                      {tag}
+                    </a>
+                  )}
+
                 </div>
                 <div className="mt3">
                   <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
