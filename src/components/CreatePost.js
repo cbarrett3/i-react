@@ -4,6 +4,15 @@ import gql from 'graphql-tag'
 import '../styles/CreatePost.css';
 
 const CREATE_POST_MUTATION = gql`
+  # STEP  1 create tags
+  # mutation CreateTagsMutation($tags: [String]) {
+  #   createTags(tags: $tags) {
+  #     id 
+  #     tag                              
+  #   }
+  # }
+
+  # STEP 2 create post
   mutation PostMutation($content: String!, $priv_post: Boolean) {
     createPost(content: $content, priv_post: $priv_post) {
       id
@@ -11,6 +20,15 @@ const CREATE_POST_MUTATION = gql`
       priv_post
     }
   }
+
+  # STEP 3 associate post with tags (should be a batch like in step 1)
+  # mutation CreatePostTagMutation($post_id: Int!, $tag_id: Int) {
+  #   createPostTag(post_id: PostMutation.createPost.id, tag_id: CreateTagMutation.createTag.id) {
+  #     id
+  #     content
+  #     priv_post
+  #   }
+  # }
 `
 
 const CREATE_TAG_MUTATION = gql`
@@ -43,24 +61,7 @@ class CreatePost extends Component {
       tag: '',
       tags: []
     }
-    this.addTagtoTags = this.addTagtoTags.bind(this)
     this.removeTag = this.removeTag.bind(this)
-  }
-
-  // updateTag(event) {
-  //   this.setState({tag: event.target.value})
-  // }
-  addTagtoTags() {
-    var tags = this.state.tags
-    // var tag = this.state.tag
-    // tags = tags.concat(this.state.tag)
-    // // tags = tags.map(tag => { 
-    // //   return {uid: SomeLibrary.generateUniqueID(), value: item};
-    // // });
-    // tag = ''
-    // this.setState({tags: tags, tag: tag})
-    this.setState({ tags : [ this.state.tag, ...this.state.tags], tag: ''})
-    // this.setState({tag: ''})
   }
 
   removeTag(tag) {
@@ -122,20 +123,19 @@ class CreatePost extends Component {
               </div>
               <div className="flex justify-between">
                 <div className="" id="tags">
-                  <ul style={{paddingLeft: "0"}}>
+                  <ul style={{listStyle: "none", padding: "0"}}>
                     {tags.map((tag, index) =>
-                      <li  style={{listStyleType: "none", display: "inline"}} onClick={() => { this.removeTag(tag)}} key={index}>
-                        <a className='f5 link dim br-pill pv2 ph2 mt1 mr1 white bg-green helvetica' href='#0'>
+                      <li className="pb2 mt3" style={{float: "left", display: "inline-block"}} onClick={() => { this.removeTag(tag)}} key={index}>
+                        <a className='f5 link dim br-pill ph3 pv2 mr1 white bg-green helvetica' href='#0'>
                            <b> x </b> {tag}
                         </a>
                       </li>
                     )}
                   </ul>
-
                 </div>
-                <div className="mt3">
+                <div className="mt4">
                   <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
-                    {createPostMutation => <a className='f5 link dim b br-pill ph3 pv2 white bg-pink helvetica' href='#0' onClick={createPostMutation}>Post</a>}
+                    {createPostMutation => <a className='f5 link dim br-pill ph3 pv2 white bg-pink helvetica' href='#0' onClick={createPostMutation}>Post</a>}
                   </Mutation>
                 </div>
               </div>

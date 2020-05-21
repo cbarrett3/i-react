@@ -11,7 +11,7 @@ button:focus {
 	font-size: 13px;
 	font-family: Helvetica;
 	font-weight: 400;
-	color: gray;
+	color: black;
 	line-height: 1.3;
 	padding: .6em 1.4em .5em .8em;
 	width: 100%;
@@ -46,7 +46,7 @@ button:focus {
 }
 .select-css option {
     font-weight: normal;
-    background-color: lightgrey;
+    background-color: white;
 }
 
 /* Support for rtl text, explicit support for Arabic and Hebrew */
