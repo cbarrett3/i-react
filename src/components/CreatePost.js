@@ -44,22 +44,34 @@ class CreatePost extends Component {
       tags: []
     }
     this.addTagtoTags = this.addTagtoTags.bind(this)
+    this.removeTag = this.removeTag.bind(this)
   }
 
   // updateTag(event) {
   //   this.setState({tag: event.target.value})
   // }
   addTagtoTags() {
-    console.log(this.state.tag)
     var tags = this.state.tags
-    tags = tags.concat(this.state.tag)
-    console.log(tags)
+    // var tag = this.state.tag
+    // tags = tags.concat(this.state.tag)
+    // // tags = tags.map(tag => { 
+    // //   return {uid: SomeLibrary.generateUniqueID(), value: item};
+    // // });
+    // tag = ''
+    // this.setState({tags: tags, tag: tag})
+    this.setState({ tags : [ this.state.tag, ...this.state.tags], tag: ''})
+    // this.setState({tag: ''})
+  }
+
+  removeTag(tag) {
+    var tags = [...this.state.tags]
+    var index = (tags.indexOf(tag))
+    tags = tags.slice(0,index).concat(tags.slice(index+1))
     this.setState({tags: tags})
   }
 
   render() {
     const { content, priv_post, tag, tags } = this.state
-    console.log(tags)
     return (
       <Query query={LOGGED_IN_USER}>
         {({ loading, error, data }) => {
@@ -89,12 +101,12 @@ class CreatePost extends Component {
               </div>
               <div className="flex justify-between">
                 <div className="">
-                    <input id="tag" className="input-reset f5 ba b--white" onChange={e => this.setState({ tag: e.target.value })} type="text" placeholder="Add Tag" aria-describedby="name-desc" />
+                    <input id="tag" className="input-reset f5 ba b--white" onChange={e => this.setState({ tag: e.target.value })} type="text" placeholder="Add Tag" id="tag-input" aria-describedby="name-desc" />
                     {tag !== '' && (
                       // <Mutation mutation={CREATE_TAG_MUTATION} variables={{ tag }}>
                       //   {createTagMutation => 
                           <a className="link flex" type="button" href="#0">
-                            <h1 className="f6 fw6 ttu tracked green" onClick={this.addTagtoTags}>Add Tag</h1>
+                            <h1 className="f6 fw6 ttu tracked green" onClick={() => { this.setState({ tags : [ ...this.state.tags, this.state.tag], tag: ''}); document.getElementById('tag-input').value = ''}}> Add Tag</h1>
                           </a>
                       // </Mutation>
                     )}
@@ -110,20 +122,20 @@ class CreatePost extends Component {
               </div>
               <div className="flex justify-between">
                 <div className="" id="tags">
-                {/* <div className="tl">
-                                {postsToRender.map(post => <Post key={post.id} post={post} />)}
-                            </div> */}
-                  {tags.map(tag =>
-                    <a className='f6 link dim br-pill pv2 ph2 mt1 mr1 dib white bg-green helvetica' href='#0'>
-                      <b>x </b>
-                      {tag}
-                    </a>
-                  )}
+                  <ul style={{paddingLeft: "0"}}>
+                    {tags.map((tag, index) =>
+                      <li  style={{listStyleType: "none", display: "inline"}} onClick={() => { this.removeTag(tag)}} key={index}>
+                        <a className='f5 link dim br-pill pv2 ph2 mt1 mr1 white bg-green helvetica' href='#0'>
+                           <b> x </b> {tag}
+                        </a>
+                      </li>
+                    )}
+                  </ul>
 
                 </div>
                 <div className="mt3">
                   <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
-                    {createPostMutation => <a className='f5 link dim br-pill ph3 pv2 white bg-pink helvetica' href='#0' onClick={createPostMutation}>Post</a>}
+                    {createPostMutation => <a className='f5 link dim b br-pill ph3 pv2 white bg-pink helvetica' href='#0' onClick={createPostMutation}>Post</a>}
                   </Mutation>
                 </div>
               </div>
