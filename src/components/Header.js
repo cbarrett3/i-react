@@ -26,8 +26,8 @@ class Header extends Component {
             {({ client, loading, error, data }) => {
                 if (loading) return <div>Fetching</div>
                 if (error) return <div>Error</div>
-                const user = data.getLoggedInUser
-                console.log(user)
+                // const user = data.getLoggedInUser
+                // console.log(user)
                 return (
                     <div className="flex f4 mt3 justify-around nowrap gray helvetica">
                         {authToken && (

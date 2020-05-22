@@ -1,45 +1,29 @@
-import React, { Component } from 'react'
-import { Mutation, Query } from 'react-apollo'
+import React, { useState } from 'react'
+import { Query } from 'react-apollo'
+import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag'
 import '../styles/CreatePost.css';
 
-const CREATE_POST_MUTATION = gql`
-  # STEP  1 create tags
-  # mutation CreateTagsMutation($tags: [String]) {
-  #   createTags(tags: $tags) {
-  #     id 
-  #     tag                              
-  #   }
-  # }
-
-  # STEP 2 create post
-  mutation PostMutation($content: String!, $priv_post: Boolean) {
+const CREATE_POST_AND_TAGS_MUTATION = gql`
+  mutation CreateTagsandPostMutation($tags: [String], $content: String!, $priv_post: Boolean) {
+    createTags(tags: $tags) {
+      id 
+      tag                              
+    },
     createPost(content: $content, priv_post: $priv_post) {
       id
       content
       priv_post
     }
   }
-
-  # STEP 3 associate post with tags (should be a batch like in step 1)
-  # mutation CreatePostTagMutation($post_id: Int!, $tag_id: Int) {
-  #   createPostTag(post_id: PostMutation.createPost.id, tag_id: CreateTagMutation.createTag.id) {
-  #     id
-  #     content
-  #     priv_post
-  #   }
-  # }
 `
-
-const CREATE_TAG_MUTATION = gql`
-  mutation CreateTagMutation($tag: String!) {
-    createTag(tag: $tag) {
+const CREATE_POST_TAG_MAPPING_MUTATION = gql`
+  mutation CreatePostTagsMappingMutation($post_id: Int, $tag_ids: [Int]) {
+    createPostTags(post_id: $post_id, tag_ids: $tag_ids) {
       id
-      tag                                     
     }
-  }
+ }
 `
-
 const LOGGED_IN_USER = gql`
   {
     getLoggedInUser {
@@ -52,27 +36,39 @@ const LOGGED_IN_USER = gql`
   }
 `
 
-class CreatePost extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      content: '',
-      priv_post: false,
-      tag: '',
-      tags: []
+function CreatePost(props) {
+    const [content, setContent ] = useState('')
+    const [priv_post, setPriv_Post ] = useState(false)
+    const [tag, setTag ] = useState('')
+    const [tags, setTags] = useState([])
+
+    /* mutation for when a post is submitted */
+    const [
+      createTagsandPostMutation,
+      { data: newPostAndTagData, loading: postSubmitting, error: postError },
+    ] = useMutation(CREATE_POST_AND_TAGS_MUTATION, {onCompleted(data) {
+      if(data) {
+        const postedID = data.createPost.id
+        const taggedIDs = data.createTags.map(tag =>
+              tag.id
+        )
+        setTimeout( function(){
+          createPostTagsMappingMutation({ variables: { post_id: postedID, tag_ids: taggedIDs } } )
+        }, 1500 );
+      }
+    }});
+
+    /* mutation for mapping post_id and tag_ids  */
+    const [
+      createPostTagsMappingMutation,
+    ] = useMutation(CREATE_POST_TAG_MAPPING_MUTATION);
+
+    /* remove tag when clicked */
+    const removeTag = (tag) => {
+      var index = (tags.indexOf(tag))
+      var newTags = tags.slice(0,index).concat(tags.slice(index+1))
+      setTags(newTags)
     }
-    this.removeTag = this.removeTag.bind(this)
-  }
-
-  removeTag(tag) {
-    var tags = [...this.state.tags]
-    var index = (tags.indexOf(tag))
-    tags = tags.slice(0,index).concat(tags.slice(index+1))
-    this.setState({tags: tags})
-  }
-
-  render() {
-    const { content, priv_post, tag, tags } = this.state
     return (
       <Query query={LOGGED_IN_USER}>
         {({ loading, error, data }) => {
@@ -93,28 +89,25 @@ class CreatePost extends Component {
                 <textarea
                   id="post"
                   name="post"
-                  value={this.state.content}
+                  value={content}
                   placeholder="What's good?"
-                  onChange={e => this.setState({ content: e.target.value })}
+                  onChange={e => setContent( e.target.value )}
                   className="db f4 hover-black w-60 measure ba b--white ph2"
                   aria-describedby="post-content">
                 </textarea>
               </div>
               <div className="flex justify-between">
                 <div className="">
-                    <input id="tag" className="input-reset f5 ba b--white" onChange={e => this.setState({ tag: e.target.value })} type="text" placeholder="Add Tag" id="tag-input" aria-describedby="name-desc" />
+                    <input className="input-reset f5 ba b--white" onChange={e => setTag( e.target.value )} type="text" placeholder="Add Tag" id="tag-input" aria-describedby="name-desc" />
                     {tag !== '' && (
-                      // <Mutation mutation={CREATE_TAG_MUTATION} variables={{ tag }}>
-                      //   {createTagMutation => 
                           <a className="link flex" type="button" href="#0">
-                            <h1 className="f6 fw6 ttu tracked green" onClick={() => { this.setState({ tags : [ ...this.state.tags, this.state.tag], tag: ''}); document.getElementById('tag-input').value = ''}}> Add Tag</h1>
+                            <h1 className="f6 fw6 ttu tracked green" onClick={() => { setTags([ ...tags, tag]); setTag(''); document.getElementById('tag-input').value = ''}}> Add Tag</h1>
                           </a>
-                      // </Mutation>
                     )}
                 </div>
                 <div>
                   <label className="">
-                    <select className="select-css" onChange={e => this.setState({ priv_post: e.target.value })}>
+                    <select className="select-css" onChange={e => setPriv_Post( e.target.value )}>
                       <option defaultValue priv_post="false">Public</option>
                       <option priv_post="true">Private </option>
                     </select>
@@ -125,7 +118,7 @@ class CreatePost extends Component {
                 <div className="" id="tags">
                   <ul style={{listStyle: "none", padding: "0"}}>
                     {tags.map((tag, index) =>
-                      <li className="pb2 mt3" style={{float: "left", display: "inline-block"}} onClick={() => { this.removeTag(tag)}} key={index}>
+                      <li className="pb2 mt3" style={{float: "left", display: "inline-block"}} onClick={() => { removeTag(tag)}} key={index}>
                         <a className='f5 link dim br-pill ph3 pv2 mr1 white bg-green helvetica' href='#0'>
                            <b> x </b> {tag}
                         </a>
@@ -134,9 +127,17 @@ class CreatePost extends Component {
                   </ul>
                 </div>
                 <div className="mt4">
-                  <Mutation mutation={CREATE_POST_MUTATION} variables={{ content, priv_post }}>
-                    {createPostMutation => <a className='f5 link dim br-pill ph3 pv2 white bg-pink helvetica' href='#0' onClick={createPostMutation}>Post</a>}
-                  </Mutation>
+                      <a 
+                        className='f5 link dim br-pill ph3 pv2 white bg-pink helvetica' 
+                        href='#0' 
+                        onClick={() => {createTagsandPostMutation({ variables: { content: content, priv_post: priv_post, tags: tags } })
+                          setContent('');
+                          setTags([]);}}>
+                        Post
+                      </a>
+                      {postSubmitting && <p>Loading...</p>}
+                      {postError && <p>Error Submitting...</p>}
+                      {newPostAndTagData && console.log(newPostAndTagData[0])}
                 </div>
               </div>
             </div>
@@ -144,7 +145,5 @@ class CreatePost extends Component {
         }}
       </Query>
     )
-  }
 }
-
 export default CreatePost
