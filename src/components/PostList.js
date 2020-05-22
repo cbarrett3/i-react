@@ -8,6 +8,7 @@ import hot from '../images/hot-colored.svg'
 import hot_gray from '../images/hot-gray.svg'
 import top from '../images/top-colored.svg'
 import top_gray from '../images/top-gray.svg'
+import '../styles/PostList.css';
 
 const POST_FEED_QUERY = gql`
   {
@@ -89,7 +90,7 @@ class PostList extends Component {
                         if (error) return <div>Error</div>
                         const postsToRender = data.postsFeed
                         return (
-                            <div className="tl">
+                            <div className="tl" style={{height: "100vh", overflow: "scroll"}}>
                                 {postsToRender.map(post => <Post key={post.id} post={post} />)}
                             </div>
                         )

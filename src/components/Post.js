@@ -9,6 +9,7 @@ class Post extends Component {
     }
   }
   render() {
+    console.log(this.props.post.post_tags)
     return (
       <div>
         <div className="flex flex-column pt3 ph3 helvetica bb b--black-10">
@@ -30,8 +31,33 @@ class Post extends Component {
               {this.state.timeago}
             </a>
           </div>
-          <div className="flex w-90 ml4 ph2 pb3">
+          <div className="flex w-90 ml4 ph2 pb1">
               {this.props.post.content}
+          </div>
+          <div className="flex w-90 ml4 ph2 pb3">
+             {/* {this.props.post.post_tags[0].tag} */}
+             { this.props.post.post_tags.length > 0
+                ? <div>
+                    {console.log(this.props.post.post_tags)}
+                    <div className="" id="tags">
+                      <ul style={{listStyle: "none", padding: "0"}}>
+                        {this.props.post.post_tags.map(tag =>
+                          <li className="pb2 mt3" style={{float: "left", display: "inline-block"}}>
+                            <a className='f6 link dim br3 ph3 pv2 mr1 white bg-green helvetica' href='#0'>
+                              {tag.tag.tag}
+                            </a>
+                          </li>
+                        )}
+                        {/* <li>hi</li> */}
+                      </ul>
+                    </div>
+                  </div> : 
+                  <div>
+                    {/* nah */}
+                  </div>
+                            // ? <img src={recent_gray} className="dim" alt="new" style={{cursor: "pointer"}} onClick={()=>this.setState({ newSort: true, hotSort: false, topSort: false })}></img>
+                            // : <img src={recent} alt="new" onClick={()=>this.setState({ newSort: true })}></img>
+             }
           </div>
         </div>
       </div>
