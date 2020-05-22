@@ -119,7 +119,7 @@ function CreatePost(props) {
                   <ul style={{listStyle: "none", padding: "0"}}>
                     {tags.map((tag, index) =>
                       <li className="pb2 mt3" style={{float: "left", display: "inline-block"}} onClick={() => { removeTag(tag)}} key={index}>
-                        <a className='f5 link dim br-pill ph3 pv2 mr1 white bg-green helvetica' href='#0'>
+                        <a className='f5 link dim br3 ph3 pv2 mr1 white bg-green helvetica' href='#0'>
                            <b> x </b> {tag}
                         </a>
                       </li>
@@ -128,7 +128,8 @@ function CreatePost(props) {
                 </div>
                 <div className="mt4">
                       <a 
-                        className='f5 link dim br-pill ph3 pv2 white bg-pink helvetica' 
+                        className='f5 link dim br3 ph3 pv2 white bg-pink helvetica' 
+                        style={{backgroundColor: '#fd5956'}}
                         href='#0' 
                         onClick={() => {createTagsandPostMutation({ variables: { content: content, priv_post: priv_post, tags: tags } })
                           setContent('');
