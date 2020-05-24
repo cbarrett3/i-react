@@ -59,7 +59,24 @@ function Post(props) {
 
   const [userShakaed, setUserShakaed] = useState(false)
 
-  const [ createPostShaka ] = useMutation(SHAKA_MUTATION, {update: updateCache});
+  const [ createPostShaka 
+  ] = useMutation(SHAKA_MUTATION, {
+    onCompleted(data) {
+      console.log(data)
+      var updatedPostShakas = data.createPostClap.post.post_claps
+      var shaka_authors = updatedPostShakas.map(shaka =>
+        shaka.author.id
+      )
+      if(shaka_authors.includes(currentUser.getLoggedInUser.id)) {
+        console.log("it's true")
+        // return setUserShakaed(true)
+      }
+      else {
+        console.log("it's false")
+        // return setUserShakaed(false)
+      }
+    }
+  });
 
   const [
     deletePostShaka,
@@ -67,7 +84,7 @@ function Post(props) {
   ] = useMutation(DELETE_SHAKA_MUTATION, {
       onCompleted(data) {
       // shouldn't have to do this, ideally UPDATE works and postList is re-rendered and so this component updates.
-      setUserShakaed(false)
+      // setUserShakaed(false)
       }},
     );
   
@@ -82,22 +99,22 @@ function Post(props) {
     }
   }
 
-  const updateCache = (cache, {data}) => {
-    // If this is for the public feed, do nothing
-    console.log(data)
-    var updatedPostShakas = data.createPostClap.post.post_claps
-    var shaka_authors = updatedPostShakas.map(shaka =>
-      shaka.author.id
-    )
-    if(shaka_authors.includes(currentUser.getLoggedInUser.id)) {
-      console.log("it's true")
-      return setUserShakaed(true)
-    }
-    else {
-      console.log("it's false")
-      return setUserShakaed(false)
-    }
-  };
+  // const updateCache = (cache, {data}) => {
+  //   // If this is for the public feed, do nothing
+  //   console.log(data)
+  //   var updatedPostShakas = data.createPostClap.post.post_claps
+  //   var shaka_authors = updatedPostShakas.map(shaka =>
+  //     shaka.author.id
+  //   )
+  //   if(shaka_authors.includes(currentUser.getLoggedInUser.id)) {
+  //     console.log("it's true")
+  //     return setUserShakaed(true)
+  //   }
+  //   else {
+  //     console.log("it's false")
+  //     return setUserShakaed(false)
+  //   }
+  // };
 
   return (
     <div>
