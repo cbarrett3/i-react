@@ -28,18 +28,40 @@ const CREATE_POST_TAG_MAPPING_MUTATION = gql`
       }
       post {
         id
+        content
+        created_at
+        attatchment_url
+        author {
+        id
+        first
+        last
+        username
+        }
         post_claps {
           id
-            author_id
-            author {
-                id
-                first
-                last
-                username
-            }
+          author {
+              id
+              first
+              last
+              username
+          }
         }
-        author {
+        post_comments {
           id
+          content
+          created_at
+          author {
+              id
+              first
+              last
+              username
+          }
+        }
+        post_tags {
+          tag {
+              id
+              tag
+          }
         }
       }
     }
@@ -93,12 +115,14 @@ function CreatePost(props) {
       createPostTagsMappingMutation,
     ] = useMutation(CREATE_POST_TAG_MAPPING_MUTATION, 
       {update(cache, { data: { post } }) {
-        const data = cache.readQuery({ query: POST_FEED_QUERY })
-        data.postsFeed.unshift(post)
-        cache.writeQuery({
-          query: POST_FEED_QUERY,
-          data
-        })
+        const feedFromCache = cache.readQuery({ query: POST_FEED_QUERY })
+        if(feedFromCache) {
+          const updatedFeed = feedFromCache.postsFeed.unshift(post)
+          cache.writeQuery({
+            query: POST_FEED_QUERY,
+            updatedFeed
+          })
+        }
       }}
     );
 

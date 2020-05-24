@@ -20,9 +20,6 @@ const LOGGED_IN_USER = gql`
 
 function Header(props) {
     const { client, loading, error, data } = useQuery(LOGGED_IN_USER);
-    if(data) {
-        console.log(data.getLoggedInUser.first)
-    }
     const authToken = localStorage.getItem(AUTH_TOKEN)
     return (
         // <Query query={LOGGED_IN_USER}>

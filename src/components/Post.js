@@ -4,9 +4,9 @@ import comment_icon from '../images/comment.svg'
 import shaka from '../images/shaka.svg'
 import shaka_gold from '../images/shaka-gold.svg'
 import '../styles/Post.css';
-import { AUTH_TOKEN } from '../constants'
 import gql from 'graphql-tag'
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery, readQuery } from '@apollo/react-hooks';
+import { POST_FEED_QUERY } from './PostList'
 
 export const LOGGED_IN_USER = gql`
   {
@@ -19,13 +19,21 @@ export const LOGGED_IN_USER = gql`
     }
   }
 `
-
 const SHAKA_MUTATION = gql`
   mutation CreatePostShaka($post_id: Int!) {
     createPostClap(post_id: $post_id) {
       id
       post {
         id
+        created_at
+        attatchment_url
+        content
+        author {
+          id
+          first
+          last
+          username
+        }
         post_claps {
           id
           author {
@@ -35,12 +43,6 @@ const SHAKA_MUTATION = gql`
               username
           }
         }
-        author {
-          id
-          first
-          last
-          username
-        }
       }
     }
   }
@@ -49,51 +51,101 @@ const DELETE_SHAKA_MUTATION = gql`
   mutation DeletePostShaka($post_clap_id: Int!, $author_id: Int!) {
     deletePostClap(post_clap_id: $post_clap_id, author_id: $author_id) {
       id
+      post {
+        id
+        created_at
+        attatchment_url
+        content
+        author {
+          id
+          first
+          last
+          username
+        }
+        post_claps {
+          id
+          author {
+              id
+              first
+              last
+              username
+          }
+        }
+      }
     }
   }
 `
 
 function Post(props) {
-  const [timestamp, setTimeago] = useState(timeago.format(props.post.created_at))
-  const { client, loading, error, data: currentUser } = useQuery(LOGGED_IN_USER);
+  const timestamp = timeago.format(props.post.created_at)
+  const { data: currentUser } = useQuery(LOGGED_IN_USER);
 
-  const [userShakaed, setUserShakaed] = useState(false)
+  // automatically updates after shaka shakas but doen't change on delete shaka...
+  const shakaAuthorIDs = props.post.post_claps.map(shaka =>
+    shaka.author.id
+  )
 
-  const [ createPostShaka 
+  // check if author did or not
+  const userShakaed = () => {
+    if(shakaAuthorIDs) {
+      console.log(shakaAuthorIDs)
+      if(shakaAuthorIDs.includes(currentUser.getLoggedInUser.id)) {
+        console.log("true")
+        return true
+      }
+    }
+    else {
+      console.log("false")
+      return false
+    }
+  }
+
+  const [ createPostShaka,
+    { client, loading: shakaLoading, error: shakaError },
   ] = useMutation(SHAKA_MUTATION, {
     onCompleted(data) {
-      console.log(data)
-      var updatedPostShakas = data.createPostClap.post.post_claps
-      var shaka_authors = updatedPostShakas.map(shaka =>
-        shaka.author.id
-      )
-      if(shaka_authors.includes(currentUser.getLoggedInUser.id)) {
-        console.log("it's true")
-        // return setUserShakaed(true)
-      }
-      else {
-        console.log("it's false")
-        // return setUserShakaed(false)
-      }
+      // working, with props automatically updated
+      console.log(props)
+      // var updatedPostShakas = data.createPostClap.post.post_claps
     }
   });
 
-  const [
-    deletePostShaka,
-    { data: deletedShakaData, loading: deletionLoading, error: deletionError },
+  const [ deletePostShaka,
+    { loading: deleteLoading, error: deleteError },
   ] = useMutation(DELETE_SHAKA_MUTATION, {
-      onCompleted(data) {
-      // shouldn't have to do this, ideally UPDATE works and postList is re-rendered and so this component updates.
-      // setUserShakaed(false)
-      }},
+        onCompleted(data) {
+          // data good but it's not working, props not updated after deletion
+          console.log(data)
+          // userShakaed()
+        },
+        update(cache, data ) {
+          console.log(data.data)
+          props.updateCacheAfterShakaDeletion(cache, data, props.post.id);
+          // console.log(props)
+          // const { postShakas } = cache.readQuery({ query: POST_FEED_QUERY });
+          // cache.writeQuery({
+          //   query: POST_FEED_QUERY,
+          //   data: { todos: todos.concat([deleteShaka]) },
+          // });
+        }
+      }
+      // },
+      // {
+      //   update(cache, { data: { deleteShakaData } }) {
+      //     // props.updateCacheAfterShakaDeletion(cache, deleteShakaData, props.post.id);
+      //     console.log(deleteShakaData)
+      //     // const { postShakas } = cache.readQuery({ query: POST_FEED_QUERY });
+      //     // cache.writeQuery({
+      //     //   query: POST_FEED_QUERY,
+      //     //   data: { todos: todos.concat([deleteShaka]) },
+      //     // });
+      //   }
     );
   
   const findExactPostClapToDelete = () => {
     var i;
     for (i = 0; i < props.post.post_claps.length; i++) {
       if(props.post.post_claps[i].author.id === currentUser.getLoggedInUser.id) {
-        console.log(props.post.post_claps[i])
-        console.log(props.post.post_claps[i].id)
         deletePostShaka( {variables: { post_clap_id: props.post.post_claps[i].id, author_id: currentUser.getLoggedInUser.id} })
       }
     }
@@ -165,13 +217,21 @@ function Post(props) {
               <img src={comment_icon} alt=""/>
           </a>
           <a className="shaka-crop link dim b f5 black pr2 right" href="#0">
-            {/* show golden shaka if user liked post */}
-            { userShakaed
+            { shakaLoading === false
               ?
-              <img src={shaka_gold} alt="" onClick={() => findExactPostClapToDelete()}/>
+                [ shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
+                  ?
+                    <img src={shaka_gold} alt="" onClick={() => findExactPostClapToDelete()}/>
+                  :
+                    <img src={shaka} alt="" onClick={() => createPostShaka({ variables: { post_id: props.post.id } })}/>
+                ]
               :
-              <img src={shaka} alt="" onClick={() => createPostShaka({ variables: { post_id: props.post.id } })
-            }/>
+                [ shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
+                  ?
+                  <img src={shaka_gold} alt="" />
+                  :
+                  <img src={shaka} alt="" />
+                ] 
             }
           </a>
           <a className="link dim f5 gray right helvetica" href="#0">
