@@ -3,6 +3,7 @@ import { Query } from 'react-apollo'
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag'
 import '../styles/CreatePost.css';
+import { POST_FEED_QUERY } from './PostList'
 
 const CREATE_POST_AND_TAGS_MUTATION = gql`
   mutation CreateTagsandPostMutation($tags: [String], $content: String!, $priv_post: Boolean) {
@@ -21,10 +22,30 @@ const CREATE_POST_TAG_MAPPING_MUTATION = gql`
   mutation CreatePostTagsMappingMutation($post_id: Int, $tag_ids: [Int]) {
     createPostTags(post_id: $post_id, tag_ids: $tag_ids) {
       id
+      tag {
+        id
+        tag
+      }
+      post {
+        id
+        post_claps {
+          id
+            author_id
+            author {
+                id
+                first
+                last
+                username
+            }
+        }
+        author {
+          id
+        }
+      }
     }
  }
 `
-const LOGGED_IN_USER = gql`
+export const LOGGED_IN_USER = gql`
   {
     getLoggedInUser {
       id
@@ -47,21 +68,39 @@ function CreatePost(props) {
       createTagsandPostMutation,
       { data: newPostAndTagData, loading: postSubmitting, error: postError },
     ] = useMutation(CREATE_POST_AND_TAGS_MUTATION, {onCompleted(data) {
-      if(data) {
-        const postedID = data.createPost.id
-        const taggedIDs = data.createTags.map(tag =>
-              tag.id
-        )
-        setTimeout( function(){
-          createPostTagsMappingMutation({ variables: { post_id: postedID, tag_ids: taggedIDs } } )
-        }, 1500 );
-      }
-    }});
+        if(data) {
+          const postedID = data.createPost.id
+          const taggedIDs = data.createTags.map(tag =>
+                tag.id
+          )
+          setTimeout( function(){
+            createPostTagsMappingMutation({ variables: { post_id: postedID, tag_ids: taggedIDs } } )
+          }, 1500 );
+        }
+      }},
+      // {update(cache, { data: { post } }) {
+      //   const data = cache.readQuery({ query: POST_FEED_QUERY })
+      //   data.postsFeed.unshift(post)
+      //   cache.writeQuery({
+      //     query: POST_FEED_QUERY,
+      //     data
+      //   })
+      // }}
+    );
 
     /* mutation for mapping post_id and tag_ids  */
     const [
       createPostTagsMappingMutation,
-    ] = useMutation(CREATE_POST_TAG_MAPPING_MUTATION);
+    ] = useMutation(CREATE_POST_TAG_MAPPING_MUTATION, 
+      {update(cache, { data: { post } }) {
+        const data = cache.readQuery({ query: POST_FEED_QUERY })
+        data.postsFeed.unshift(post)
+        cache.writeQuery({
+          query: POST_FEED_QUERY,
+          data
+        })
+      }}
+    );
 
     /* remove tag when clicked */
     const removeTag = (tag) => {

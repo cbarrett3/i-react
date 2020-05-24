@@ -10,15 +10,15 @@ import top from '../images/top-colored.svg'
 import top_gray from '../images/top-gray.svg'
 import '../styles/PostList.css';
 
-const POST_FEED_QUERY = gql`
+export const POST_FEED_QUERY = gql`
   {
     postsFeed {
         id
         created_at
         attatchment_url
         content
-        author_id
         author {
+            id
             first
             last
             username
@@ -27,6 +27,7 @@ const POST_FEED_QUERY = gql`
             content
             created_at
             author {
+                id
                 first
                 last
                 username
@@ -34,8 +35,8 @@ const POST_FEED_QUERY = gql`
         }
         post_claps {
             id
-            author_id
             author {
+                id
                 first
                 last
                 username
@@ -43,6 +44,7 @@ const POST_FEED_QUERY = gql`
         }
         post_tags {
             tag {
+                id
                 tag
             }
         }
@@ -61,10 +63,19 @@ class PostList extends Component {
         }
     }
 
+    updateCacheAfterShaka = (cache, shakaedPostData, postID) => {
+        const cacheFeed = cache.readQuery({ query: POST_FEED_QUERY })
+        console.log(cacheFeed)
+        const postInCacheFeed = cacheFeed.postsFeed.find(post => post.id === postID)
+        console.log(postInCacheFeed)
+        postInCacheFeed.post_claps = shakaedPostData.createPostClap.post.post_claps
+        // cache.writeQuery({ query: POST_FEED_QUERY, cacheFeed })
+    }
+
     render() {
         return (
             <div className="bb bl br b--black-10">
-                <div className="flex justify-around nowrap ph3 pv1 bg-light-gray">
+                <div className="flex justify-around nowrap ph3 pv1 bg-light-gray" style={{backgroundColor: "#f2f5f4"}}>
                     <div>
                         { !this.state.newSort
                             ? <img src={recent_gray} className="dim" alt="new" style={{cursor: "pointer"}} onClick={()=>this.setState({ newSort: true, hotSort: false, topSort: false })}></img>
@@ -89,11 +100,12 @@ class PostList extends Component {
                         if (loading) return <div>Fetching</div>
                         if (error) return <div>Error</div>
                         const postsToRender = data.postsFeed
+                        console.log(data.postsFeed)
                         return (
                             <div className="tl" style={{height: "100vh", overflow: "scroll"}}>
-                                {postsToRender.map(post => <Post key={post.id} post={post} />)}
+                                    {postsToRender.map((post, index) => <Post key={post.id} post={post} index={index} updateCacheAfterShaka={this.updateCacheAfterShaka}/>)}
                             </div>
-                        )
+                        )   
                     }}
                 </Query>
             </div>

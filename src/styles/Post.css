@@ -1,0 +1,20 @@
+.posty:hover{
+    background-color:#f7fcfa;
+    /* background-color: #f2f5f4; */
+ }
+ .comment-crop {
+    overflow: hidden;
+}
+.shaka-crop {
+    overflow: hidden;
+}
+.comment-crop img {
+    width: 21px;
+    height: auto;
+    margin: 0 0 -3px 0;
+}
+.shaka-crop img {
+    width: 23px;
+    height: auto;
+    margin: 0 0 -3px 0;
+}
