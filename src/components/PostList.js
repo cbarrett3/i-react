@@ -70,7 +70,7 @@ function PostList(props) {
         postFromCache.post_claps = postFromCache.post_claps.filter(shaka => shaka.id !== postFromCache.post_claps.find(shaka => shaka.id === data.data.deletePostClap.id).id)
         // update local store (cache)
         // cache.writeQuery({ query: POST_FEED_QUERY, data:{ postsFeed: feedFromCache }})
-    }
+    }   
 
     return (
         <div className="bb bl br b--black-10">

@@ -115,7 +115,7 @@ function Post(props) {
   ] = useMutation(DELETE_SHAKA_MUTATION, {
         onCompleted(data) {
           // data good but it's not working, props not updated after deletion
-          console.log(data)
+          console.log(props)
           // userShakaed()
         },
         update(cache, data ) {
