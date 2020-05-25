@@ -6,7 +6,6 @@ import shaka_gold from '../images/shaka-gold.svg'
 import '../styles/Post.css';
 import gql from 'graphql-tag'
 import { useMutation, useQuery, readQuery } from '@apollo/react-hooks';
-import { POST_FEED_QUERY } from './PostList'
 
 export const LOGGED_IN_USER = gql`
   {
@@ -79,67 +78,49 @@ const DELETE_SHAKA_MUTATION = gql`
 function Post(props) {
   const timestamp = timeago.format(props.post.created_at)
   const { data: currentUser } = useQuery(LOGGED_IN_USER);
-
   // automatically updates after shaka shakas but doen't change on delete shaka...
   const shakaAuthorIDs = props.post.post_claps.map(shaka =>
     shaka.author.id
   )
+  const [ shakaed, setShakaed ] = useState((shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true))
+  const [ shakaCount, setShakaCount ] = useState(props.post.post_claps.length)
+  // const {shakaed: setShakaed } = useState(false)
 
   // check if author did or not
-  const userShakaed = () => {
-    if(shakaAuthorIDs) {
-      console.log(shakaAuthorIDs)
-      if(shakaAuthorIDs.includes(currentUser.getLoggedInUser.id)) {
-        console.log("true")
-        return true
-      }
-    }
-    else {
-      console.log("false")
-      return false
-    }
-  }
+  // const userShakaed = () => {
+  //   if(shakaAuthorIDs) {
+  //     console.log(shakaAuthorIDs)
+  //     if(shakaAuthorIDs.includes(currentUser.getLoggedInUser.id)) {
+  //       console.log("true")
+  //       return true
+  //     }
+  //   }
+  //   else {
+  //     console.log("false")
+  //     return false
+  //   }
+  // }
 
   const [ createPostShaka,
-    { client, loading: shakaLoading, error: shakaError },
+    { client, loading: createShakaLoading, error: createShakaError },
   ] = useMutation(SHAKA_MUTATION, {
     onCompleted(data) {
-      // working, with props automatically updated
-      console.log(props)
-      // var updatedPostShakas = data.createPostClap.post.post_claps
+      // sup
+        console.log("hola")
     }
   });
 
   const [ deletePostShaka,
-    { loading: deleteLoading, error: deleteError },
+    { loading: deleteShakaLoading, error: deleteShakaError },
   ] = useMutation(DELETE_SHAKA_MUTATION, {
         onCompleted(data) {
-          // data good but it's not working, props not updated after deletion
-          console.log(props)
-          // userShakaed()
+          // sup
         },
         update(cache, data ) {
           console.log(data.data)
           props.updateCacheAfterShakaDeletion(cache, data, props.post.id);
-          // console.log(props)
-          // const { postShakas } = cache.readQuery({ query: POST_FEED_QUERY });
-          // cache.writeQuery({
-          //   query: POST_FEED_QUERY,
-          //   data: { todos: todos.concat([deleteShaka]) },
-          // });
         }
       }
-      // },
-      // {
-      //   update(cache, { data: { deleteShakaData } }) {
-      //     // props.updateCacheAfterShakaDeletion(cache, deleteShakaData, props.post.id);
-      //     console.log(deleteShakaData)
-      //     // const { postShakas } = cache.readQuery({ query: POST_FEED_QUERY });
-      //     // cache.writeQuery({
-      //     //   query: POST_FEED_QUERY,
-      //     //   data: { todos: todos.concat([deleteShaka]) },
-      //     // });
-      //   }
     );
   
   const findExactPostClapToDelete = () => {
@@ -216,29 +197,33 @@ function Post(props) {
           <a className="comment-crop link dim b f5 black pr4 right" href="#0">
               <img src={comment_icon} alt=""/>
           </a>
-          <a className="shaka-crop link dim b f5 black pr2 right" href="#0">
-            { shakaLoading === false
+          <a className="shaka-crop link b f5 black pr2 right" href="#0">
+            { createShakaLoading === false && deleteShakaLoading === false
               ?
-                [ shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
+                // {/* { (shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true) */}
+                [ (shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true)
                   ?
-                    <img src={shaka_gold} alt="" onClick={() => findExactPostClapToDelete()}/>
+                    <img src={shaka_gold} id="shakaed" alt="" onClick={() => {findExactPostClapToDelete(); setShakaed(false)}}/>
                   :
-                    <img src={shaka} alt="" onClick={() => createPostShaka({ variables: { post_id: props.post.id } })}/>
+                    // <img src={shaka} alt="" id="notshakaed" onClick={() => {document.getElementById('notshakaed').src = {shaka_gold}; createPostShaka({ variables: { post_id: props.post.id } }); setShakaed(true)}}/>
+                    <img src={shaka} alt="" id="notshakaed" onClick={() => {createPostShaka({ variables: { post_id: props.post.id } }); setShakaed(true)}}/>
                 ]
+                // <div>hi</div>
               :
                 [ shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
                   ?
-                  <img src={shaka_gold} alt="" />
+                      // {/* <p>delete shaka loading</p> */}
+                      <img src={shaka} alt="" />
                   :
-                  <img src={shaka} alt="" />
+                      // {/* <p>loading shaka hasn't happend yet</p> */}
+                      <img src={shaka_gold} alt="" />
                 ] 
             }
           </a>
           <a className="link dim f5 gray right helvetica" href="#0">
-            { props.post.post_claps.length > 0 
-                ? props.post.post_claps.length
-                : 0
-            }
+            { createShakaLoading && (props.post.post_claps) && props.post.post_claps.length + 1 }
+            { deleteShakaLoading && (props.post.post_claps) && props.post.post_claps.length - 1 }
+            { (!deleteShakaLoading && !createShakaLoading) && (props.post.post_claps) && props.post.post_claps.length }
           </a>
         </div>
       </div>
