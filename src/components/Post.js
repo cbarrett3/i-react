@@ -194,8 +194,8 @@ function Post(props) {
             }
         </div>
         <div className="tr">
-          <a className="comment-crop link dim b f5 black pr4 right" href="#0">
-              <img src={comment_icon} alt=""/>
+          <a className="comment-crop link dim f5 black pr4 right" href="#0">
+              <img src={comment_icon} alt=""/> <div className="helvetica gray" style={{display: "inline"}}> comments </div>
           </a>
           <a className="shaka-crop link b f5 black pr2 right" href="#0">
             { createShakaLoading === false && deleteShakaLoading === false
@@ -203,27 +203,27 @@ function Post(props) {
                 // {/* { (shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true) */}
                 [ (shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true)
                   ?
-                    <img src={shaka_gold} id="shakaed" alt="" onClick={() => {findExactPostClapToDelete(); setShakaed(false)}}/>
+                    <img className="shaka-gold" src={shaka_gold} id="shakaed" alt="" onClick={() => {findExactPostClapToDelete(); setShakaed(false)}}/>
                   :
                     // <img src={shaka} alt="" id="notshakaed" onClick={() => {document.getElementById('notshakaed').src = {shaka_gold}; createPostShaka({ variables: { post_id: props.post.id } }); setShakaed(true)}}/>
-                    <img src={shaka} alt="" id="notshakaed" onClick={() => {createPostShaka({ variables: { post_id: props.post.id } }); setShakaed(true)}}/>
+                    <img className="shaka" src={shaka} alt="" id="notshakaed" onClick={() => {createPostShaka({ variables: { post_id: props.post.id } }); setShakaed(true)}}/>
                 ]
                 // <div>hi</div>
               :
                 [ shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
                   ?
                       // {/* <p>delete shaka loading</p> */}
-                      <img src={shaka} alt="" />
+                      <img className="shaka" src={shaka} alt="" />
                   :
                       // {/* <p>loading shaka hasn't happend yet</p> */}
-                      <img src={shaka_gold} alt="" />
+                      <img className="shaka-gold" src={shaka_gold} alt="" />
                 ] 
             }
           </a>
           <a className="link dim f5 gray right helvetica" href="#0">
-            { createShakaLoading && (props.post.post_claps) && props.post.post_claps.length + 1 }
-            { deleteShakaLoading && (props.post.post_claps) && props.post.post_claps.length - 1 }
-            { (!deleteShakaLoading && !createShakaLoading) && (props.post.post_claps) && props.post.post_claps.length }
+            { createShakaLoading && (props.post.post_claps) && props.post.post_claps.length + 1}
+            { deleteShakaLoading && (props.post.post_claps) && props.post.post_claps.length - 1}
+            { (!deleteShakaLoading && !createShakaLoading) && (props.post.post_claps) && props.post.post_claps.length}
           </a>
         </div>
       </div>

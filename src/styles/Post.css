@@ -18,3 +18,17 @@
     height: auto;
     margin: 0 0 -3px 0;
 }
+
+.shaka-gold:hover {
+    /* background-color: black; */
+    /* width: 24px; */
+    opacity: .5;
+    height: auto;
+}
+
+.shaka:hover {
+    /* background-color: black; */
+    /* width: 24px; */
+    opacity: .5;
+    height: auto;
+}
