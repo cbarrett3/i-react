@@ -127,7 +127,7 @@ class Login extends Component {
             </div>
           </div>
         </div>
-        <div className="fl w-100 w-20-ns dn-m br bw4 h5" style={{ color: '#08bbe1', height: '100vh' }}>
+        <div className="fl w-100 w-20-ns dn-m br bw4 h5" style={{ color: '#3ddf9b', height: '100vh' }}>
           <img src={earth} alt="earth" style={{ marginTop: '50vh' }}></img>
         </div>
       </div>

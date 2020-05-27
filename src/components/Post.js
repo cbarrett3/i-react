@@ -79,9 +79,13 @@ function Post(props) {
   const timestamp = timeago.format(props.post.created_at)
   const { data: currentUser } = useQuery(LOGGED_IN_USER);
   const [commentModal, setCommentModal] = useState(false);
-  const shakaAuthorIDs = props.post.post_claps.map(shaka =>
-    shaka.author.id
-  )
+  var shakaAuthorIDs = [];
+  if(props.post.post_claps) {
+    props.post.post_claps.map(shaka =>
+      shakaAuthorIDs = shakaAuthorIDs.concat(shaka.author.id)
+    )
+  }
+
   const [ createPostShaka,
     { loading: createShakaLoading, error: createShakaError },
   ] = useMutation(SHAKA_MUTATION, {
@@ -102,6 +106,9 @@ function Post(props) {
     for (i = 0; i < props.post.post_claps.length; i++) {
       if(props.post.post_claps[i].author.id === currentUser.getLoggedInUser.id) {
         deletePostShaka( {variables: { post_clap_id: props.post.post_claps[i].id, author_id: currentUser.getLoggedInUser.id} })
+      }
+      else {
+        return Error
       }
     }
     // props.post.post_claps.map((shaka, index) => {
@@ -200,7 +207,7 @@ function Post(props) {
         </div>
         {(commentModal === true) && 
           <div className="tl">
-            {props.post.post_comments.map((comment, index) => <Comment comment={comment} key={index}/>)}
+            {props.post.post_comments.map((comment, index) => <Comment comment={comment} user={currentUser.getLoggedInUser} key={index}/>)}
           </div>
         }
       </div>

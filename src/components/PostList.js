@@ -33,6 +33,15 @@ export const POST_FEED_QUERY = gql`
                 last
                 username
             }
+            post_comment_claps {
+                id
+                author {
+                id
+                first
+                last
+                username
+                }
+            }
         }
         post_claps {
             id

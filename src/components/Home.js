@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PostList from './PostList'
 import CreatePost from './CreatePost'
+import Footer from './Footer'
 
 class Home extends Component {
     render() {
@@ -21,6 +22,7 @@ class Home extends Component {
                     <br/>
                     {/* <QuestionList></QuestionList> */}
                 </div>
+                <Footer></Footer>
             </div>
             <div className="fl w-100 w-25-ns br3 dn-m bg-light-gray" style={{backgroundColor: "#f2f5f4"}}>
                 <div className="pa1 tc helvetica">
