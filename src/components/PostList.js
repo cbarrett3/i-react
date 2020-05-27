@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Post from './Post'
-import { Query } from 'react-apollo'
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag'
 import recent from '../images/new-colored.svg'
 import recent_gray from '../images/new-gray.svg'
@@ -97,13 +96,29 @@ function PostList(props) {
             {data
                 ? 
                 <div className="tl" style={{height: "100vh", overflow: "scroll"}}>
-                    {console.log(data)}
-                    {data.postsFeed.map((post, index) => <Post key={post.id} post={post} index={index} updateCacheAfterShakaDeletion={updateCacheAfterShakaDeletion}/>)}
+                    {data.postsFeed.map((post, index) => <Post post={post} key={index} updateCacheAfterShakaDeletion={updateCacheAfterShakaDeletion}/>)}
                 </div>
                 :
                 <div></div>
             }
-            {loading && <div className="tc helvetica gray"> chill </div> }
+            {loading && 
+                <div className="tc helvetica gray"> 
+                    <div className="wrapper">
+                        <div className="loader-box">
+                            <div className="loader">
+                            
+                            </div>
+                            <div className="loader-text">
+                                loading
+                            </div>
+                        </div>
+                        
+                        {/* <div class="description-box">
+                            This is a simple lightweight loading spinner
+                        </div> */}
+                    </div>
+                </div>
+            }
             {error && <div className="tc helvetica gray"> our bad! error fetching post data. come back later please. </div> }
         </div>
     )

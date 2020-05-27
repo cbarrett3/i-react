@@ -135,7 +135,7 @@ function CreatePost(props) {
     return (
       <Query query={LOGGED_IN_USER}>
         {({ loading, error, data }) => {
-          if (loading) return <div>Fetching</div>
+          if (loading) return <div className="mb6 tc gray">loading</div>
           if (error) return <div>Error</div>
           const user = data.getLoggedInUser
           return (

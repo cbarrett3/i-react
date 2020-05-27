@@ -18,7 +18,7 @@ class App extends Component {
       //   </div>
       //   <Footer/>
       // </div >
-      <div className="center w85">
+      <div className="center" style={{width: "90%"}}>
         <Switch>
           <Route exact path="/" component={Login} />
           <Route component={Header} />
