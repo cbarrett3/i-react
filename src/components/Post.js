@@ -117,18 +117,22 @@ function Post(props) {
   }
   return (
     <div>
-      <div className="flex flex-column pt3 ph3 helvetica bb b--black-10 pointer posty">
-        <div className="flex w-100 mb2">
+      <div className="flex flex-column pt3 ph3 helvetica bb b--black-10 posty">
+        <div className="flex w-100 pb3">
           <img
               src="http://tachyons.io/img/logo.jpg"
               className="br-pill h2-m w2-m h2 w2 mr2" alt="avatar">
           </img>
-          <a className="link b f5 black" href="#0">
+          {/* <a className="link b f5 black" href="#0">
             {props.post.author.first} {props.post.author.last} 
           </a>
           <a className="link f6 gray ml2 mr2" href="#0">
             @{props.post.author.username} 
-          </a>
+          </a> */}
+          <div className="">
+            <span className="f5 db b black mh2">{props.post.author.first} {props.post.author.last}</span>
+            <span className="f6 db gray mh2">@{props.post.author.username}</span>
+          </div>
           <a className="link f6 gray mr2" href="#0">
             &#9642;
           </a>
@@ -136,7 +140,7 @@ function Post(props) {
             {timestamp}
           </a>
         </div>
-        <div className="flex w-90 ml4 ph2 pb1">
+        <div className="flex w-90 ml4 ph3 pb1">
             {props.post.content}
         </div>
         <div className="flex w-90 ml4 ph2 pb3">
@@ -194,7 +198,11 @@ function Post(props) {
             </a>
           </div>
         </div>
-        {(commentModal === true) && <Comment comments={props.post.post_comments}></Comment>}
+        {(commentModal === true) && 
+          <div className="tl">
+            {props.post.post_comments.map((comment, index) => <Comment comment={comment} key={index}/>)}
+          </div>
+        }
       </div>
     </div>
   )

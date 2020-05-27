@@ -153,7 +153,7 @@ function CreatePost(props) {
                   id="post"
                   name="post"
                   value={content}
-                  placeholder="What's good?"
+                  placeholder="Got Juice?"
                   onChange={e => setContent( e.target.value )}
                   className="db f4 hover-black w-60 measure ba b--white ph2"
                   aria-describedby="post-content">
