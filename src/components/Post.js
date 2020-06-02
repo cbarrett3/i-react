@@ -96,6 +96,7 @@ function Post(props) {
     { loading: deleteShakaLoading, error: deleteShakaError },
   ] = useMutation(DELETE_SHAKA_MUTATION, {
         onCompleted(data) {
+          console.log("done")
         },
         update(cache, data ) {
           props.updateCacheAfterShakaDeletion(cache, data, props.post.id);
@@ -103,24 +104,15 @@ function Post(props) {
       });
   const findExactPostClapToDelete = () => {
     var i;
+    console.log(props.post.post_claps)
     for (i = 0; i < props.post.post_claps.length; i++) {
+      console.log(props.post.post_claps[i].author.id)
+      console.log(currentUser.getLoggedInUser.id)
       if(props.post.post_claps[i].author.id === currentUser.getLoggedInUser.id) {
-        deletePostShaka( {variables: { post_clap_id: props.post.post_claps[i].id, author_id: currentUser.getLoggedInUser.id} })
-      }
-      else {
-        return Error
+        return deletePostShaka( {variables: { post_clap_id: props.post.post_claps[i].id, author_id: currentUser.getLoggedInUser.id} })
       }
     }
-    // props.post.post_claps.map((shaka, index) => {
-    //   if(shaka.author_id === currentUser.getLoggedInUser.id) {
-    //     deletePostShaka( {variables: { post_clap_id: shaka.id, author_id: currentUser.getLoggedInUser.id } })
-    //     return 1;
-    //   }
-    //   else {
-    //     // author didn't already shaka post
-    //     return Error
-    //   }
-    // })  
+    return Error
   }
   return (
     <div>
