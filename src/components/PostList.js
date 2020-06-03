@@ -67,8 +67,8 @@ function PostList(props) {
     const [ hotSort, setHotSort] = useState(false)
     const [ topSort, setTopSort] = useState(false)
     const { loading, error, data } = useQuery(POST_FEED_QUERY);
-
-    const updateCacheAfterShakaDeletion = (cache, data, postID) => {
+    
+    const updateCacheAfterPostShakaDeletion = (cache, data, postID) => {
         const feedFromCache = cache.readQuery({ query: POST_FEED_QUERY })
         // find post
         const postFromCache = feedFromCache.postsFeed.find(post => post.id === postID)
@@ -78,7 +78,25 @@ function PostList(props) {
         postFromCache.post_claps = postFromCache.post_claps.filter(shaka => shaka.id !== postFromCache.post_claps.find(shaka => shaka.id === data.data.deletePostClap.id).id)
         // update local store (cache)
         // cache.writeQuery({ query: POST_FEED_QUERY, data:{ postsFeed: feedFromCache }})
-    }   
+    }
+    const updateCacheAfterPostCommentShakaDeletion = (cache, data, postID, commentID) => {
+        const feedFromCache = cache.readQuery({ query: POST_FEED_QUERY })
+        // find post
+        const postFromCache = feedFromCache.postsFeed.find(post => post.id === postID)
+        // find comment
+        const postCommentFromCache = postFromCache.post_comments.find(comment => comment.id === commentID)
+        // delete comment clap from postcomment
+        postCommentFromCache.post_comment_claps = postCommentFromCache.post_comment_claps.filter(shaka => shaka.id !== postCommentFromCache.post_comment_claps.find(shaka => shaka.id === data.data.deletePostCommentClap.id).id)
+    }
+    const updateCacheAfterPostCommentShakaCreation = (cache, data, postID, commentID) => {
+        const feedFromCache = cache.readQuery({ query: POST_FEED_QUERY })
+        // find post
+        const postFromCache = feedFromCache.postsFeed.find(post => post.id === postID)
+        // find comment
+        const postCommentFromCache = postFromCache.post_comments.find(comment => comment.id === commentID)
+        // add comment clap to postcomment from cache here
+        postCommentFromCache.post_comment_claps = postCommentFromCache.post_comment_claps.concat(data.data.createPostCommentClap)
+    }
 
     return (
         <div className="bb bl br b--black-10">
@@ -105,7 +123,8 @@ function PostList(props) {
             {data
                 ? 
                 <div className="tl" style={{height: "100vh", overflow: "scroll"}}>
-                    {data.postsFeed.map((post, index) => <Post post={post} key={index} updateCacheAfterShakaDeletion={updateCacheAfterShakaDeletion}/>)}
+                    {console.log(data.postsFeed)}
+                    {data.postsFeed.map((post, index) => <Post post={post} key={index} updateCacheAfterPostShakaDeletion={updateCacheAfterPostShakaDeletion} updateCacheAfterPostCommentShakaDeletion={updateCacheAfterPostCommentShakaDeletion} updateCacheAfterPostCommentShakaCreation={updateCacheAfterPostCommentShakaCreation}/>)}
                 </div>
                 :
                 <div></div>

@@ -79,35 +79,38 @@ function Post(props) {
   const timestamp = timeago.format(props.post.created_at)
   const { data: currentUser } = useQuery(LOGGED_IN_USER);
   const [commentModal, setCommentModal] = useState(false);
+
+  const updateCacheAfterPostCommentShakaDeletion = (cache, data, postCommentID) => {
+    props.updateCacheAfterPostCommentShakaDeletion(cache, data, props.post.id, postCommentID)
+  }
+  const updateCacheAfterPostCommentShakaCreation = (cache, data, postCommentID) => {
+    props.updateCacheAfterPostCommentShakaCreation(cache, data, props.post.id, postCommentID)
+  }
+
   var shakaAuthorIDs = [];
   if(props.post.post_claps) {
     props.post.post_claps.map(shaka =>
       shakaAuthorIDs = shakaAuthorIDs.concat(shaka.author.id)
     )
   }
-
   const [ createPostShaka,
     { loading: createShakaLoading, error: createShakaError },
   ] = useMutation(SHAKA_MUTATION, {
         onCompleted(data) {
         }
-      });
+  });
   const [ deletePostShaka,
     { loading: deleteShakaLoading, error: deleteShakaError },
   ] = useMutation(DELETE_SHAKA_MUTATION, {
         onCompleted(data) {
-          console.log("done")
         },
         update(cache, data ) {
-          props.updateCacheAfterShakaDeletion(cache, data, props.post.id);
+          props.updateCacheAfterPostShakaDeletion(cache, data, props.post.id);
         }
-      });
+  });
   const findExactPostClapToDelete = () => {
     var i;
-    console.log(props.post.post_claps)
     for (i = 0; i < props.post.post_claps.length; i++) {
-      console.log(props.post.post_claps[i].author.id)
-      console.log(currentUser.getLoggedInUser.id)
       if(props.post.post_claps[i].author.id === currentUser.getLoggedInUser.id) {
         return deletePostShaka( {variables: { post_clap_id: props.post.post_claps[i].id, author_id: currentUser.getLoggedInUser.id} })
       }
@@ -199,7 +202,7 @@ function Post(props) {
         </div>
         {(commentModal === true) && 
           <div className="tl">
-            {props.post.post_comments.map((comment, index) => <Comment comment={comment} user={currentUser.getLoggedInUser} key={index}/>)}
+            {props.post.post_comments.map((comment, index) => <Comment comment={comment} user={currentUser.getLoggedInUser} key={index} updateCacheAfterPostCommentShakaDeletion={updateCacheAfterPostCommentShakaDeletion} updateCacheAfterPostCommentShakaCreation={updateCacheAfterPostCommentShakaCreation}/>)}
           </div>
         }
       </div>
