@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { AUTH_TOKEN } from '../constants'
-import logo from '../images/juice-logo-white.svg';
-import lock from '../images/lock.png';
-import earth from '../images/earth.png'
+import logo from '../assets/juice-logo-white.svg';
+import lock from '../assets/lock.png';
+import earth from '../assets/earth.png'
 
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation($email: String!, $username: String!, $first: String!, $last: String!, $password: String!) {

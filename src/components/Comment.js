@@ -1,7 +1,7 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import shaka from '../images/shaka.svg'
-import shaka_gold from '../images/shaka-gold.svg'
+import shaka from '../assets/shaka.svg'
+import shaka_gold from '../assets/shaka-gold.svg'
 import { useMutation } from '@apollo/react-hooks';
 
 const POST_COMMENT_SHAKA_MUTATION = gql`

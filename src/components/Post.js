@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
-import * as timeago from 'timeago.js';
-import comment_icon from '../images/comment.svg'
-import shaka from '../images/shaka.svg'
-import shaka_gold from '../images/shaka-gold.svg'
-import '../styles/Post.css';
+import * as timeago from 'timeago.js'
+import comment_icon from '../assets/comment.svg'
+import shaka from '../assets/shaka.svg'
+import shaka_gold from '../assets/shaka-gold.svg'
+import '../styles/Post.css'
 import gql from 'graphql-tag'
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import { Comment } from './Comment'
+import {ReactComponent as CommentIcon} from '../assets/comment.svg'
+import { CommentSVG } from './Icons/CommentSVG'
+import { ReactSVG } from 'react-svg'
+
 
 export const LOGGED_IN_USER = gql`
   {
@@ -75,6 +79,7 @@ const DELETE_SHAKA_MUTATION = gql`
     }
   }
 `
+
 function Post(props) {
   const timestamp = timeago.format(props.post.created_at)
   const { data: currentUser } = useQuery(LOGGED_IN_USER);
@@ -119,18 +124,12 @@ function Post(props) {
   }
   return (
     <div>
-      <div className="flex flex-column pt3 ph3 helvetica bb b--black-10 posty">
+      <div className="flex flex-column pt3 ph3 helvetica bb b--black-10 posty" style={{cursor: "pointer"}}>
         <div className="flex w-100 pb3">
           <img
               src="http://tachyons.io/img/logo.jpg"
               className="br-pill h2-m w2-m h2 w2 mr2" alt="avatar">
           </img>
-          {/* <a className="link b f5 black" href="#0">
-            {props.post.author.first} {props.post.author.last} 
-          </a>
-          <a className="link f6 gray ml2 mr2" href="#0">
-            @{props.post.author.username} 
-          </a> */}
           <div className="">
             <span className="f5 db b black mh2">{props.post.author.first} {props.post.author.last}</span>
             <span className="f6 db gray mh2">@{props.post.author.username}</span>
@@ -165,9 +164,17 @@ function Post(props) {
                 <div></div>
             }
         </div>
-        <div className="flex justify-between mt2 mb1">
-          <a className="comment-crop link 5 black pr4 right" href="#0">
-              <img className="dim" src={comment_icon} alt=""/>&nbsp; <div className="helvetica gray underline-hover" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div>
+        <div className="flex justify-between">
+          <a className="comment-crop link 5 black pr4 pb3 right" href="#0" onClick={() => { setCommentModal(!commentModal)}} >
+              {/* <img className="commentIcon" src={comment_icon} alt=""/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
+              {/* &nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
+              {/* <CommentIcon className="commentIcon" alt="commentIcon"/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
+              {/* <ReactSVG src={comment_icon} class="commentIcon"/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
+              {/* <CommentSVG/>&nbsp; <div className="comment-count helvetica dim" style={{display: "inline", color: "#A7A7A7"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} </div> */}
+              <CommentSVG/> 
+              <div className="commentCount"> 
+                {props.post.post_comments.length} 
+              </div>
           </a>
           <div>
             <a className="shaka-crop link b f5 black pr2 right" href="#0">
@@ -188,7 +195,7 @@ function Post(props) {
                       <img className="shaka-gold" src={shaka_gold} alt="" />
               }
             </a>
-            <a className="link underline-hover f5 gray right helvetica" style={{color: "#A8A8A8"}} href="#0">
+            <a className="link dim f5 gray right helvetica" style={{color: "#A8A8A8"}} href="#0">
               { createShakaLoading && (props.post.post_claps) && props.post.post_claps.length + 1 !== 1 && props.post.post_claps.length + 1 + " shakas"}
               { createShakaLoading && (props.post.post_claps) && props.post.post_claps.length + 1 === 1 && props.post.post_claps.length + 1 + " shaka"}
               { deleteShakaLoading && (props.post.post_claps) && props.post.post_claps.length - 1 !== 1 && props.post.post_claps.length - 1 + " shakas"}

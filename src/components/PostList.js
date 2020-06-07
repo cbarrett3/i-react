@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import Post from './Post'
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag'
-import recent from '../images/new-colored.svg'
-import recent_gray from '../images/new-gray.svg'
-import hot from '../images/hot-colored.svg'
-import hot_gray from '../images/hot-gray.svg'
-import top from '../images/top-colored.svg'
-import top_gray from '../images/top-gray.svg'
+import recent from '../assets/new-colored.svg'
+import recent_gray from '../assets/new-gray.svg'
+import hot from '../assets/hot-colored.svg'
+import hot_gray from '../assets/hot-gray.svg'
+import top from '../assets/top-colored.svg'
+import top_gray from '../assets/top-gray.svg'
 import '../styles/PostList.css';
 
 export const POST_FEED_QUERY = gql`

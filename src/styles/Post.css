@@ -13,6 +13,29 @@
     height: auto;
     margin: 0 0 -3px 0;
 }
+
+.commentIcon {
+    width: 22px;
+    height: auto;
+    margin: 0 0 -8px 0;
+    padding: 3px;
+}
+.commentIcon:hover {
+    fill: #28d495;
+    background-color: #d1ece3;
+    border-radius: 100px;
+}
+
+.commentCount {
+    display: inline;
+    color: #a7a7a7;
+    font-family: helvetica;
+    /* margin: 0 0 4px 0; */
+}
+/* .commentCount:hover {
+    color: #28d495;
+} */
+
 .shaka-crop img {
     width: 20px;
     height: auto;

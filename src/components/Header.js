@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
-import logo_water from '../images/logo-gen2.svg'; 
+import logo_water from '../assets/logo-gen2.svg'; 
 import { AUTH_TOKEN } from '../constants'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks';
