@@ -8,17 +8,16 @@
 .shaka-crop {
     overflow: hidden;
 }
-.comment-crop img {
+.commentCrop img {
     width: 18px;
     height: auto;
-    margin: 0 0 -3px 0;
 }
 
 .commentIcon {
     width: 22px;
     height: auto;
     margin: 0 0 -8px 0;
-    padding: 3px;
+    padding: 2px;
 }
 .commentIcon:hover {
     fill: #28d495;
@@ -28,21 +27,27 @@
 
 .commentCount {
     display: inline;
-    color: #a7a7a7;
+    color: #a8a8a8;
     font-family: helvetica;
-    /* margin: 0 0 4px 0; */
 }
-/* .commentCount:hover {
+
+.commentCount:hover {
     color: #28d495;
-} */
-
-.shaka-crop img {
-    width: 20px;
-    height: auto;
-    margin: 0 0 -3px 0;
 }
 
-.shaka-gold:hover {
+.shakaIcon img {
+    width: 24px;
+    height: auto;
+    margin: 0 0 -7px 0;
+    padding: 2px;
+}
+
+.shakaCount {
+    display: inline;
+    color: #a7a7a7;
+}
+
+.shakaGold:hover {
     /* background-color: black; */
     /* width: 24px; */
     opacity: .5;
@@ -50,8 +55,6 @@
 }
 
 .shaka:hover {
-    /* background-color: black; */
-    /* width: 24px; */
     opacity: .5;
     height: auto;
 }

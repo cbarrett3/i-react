@@ -164,47 +164,55 @@ function Post(props) {
                 <div></div>
             }
         </div>
-        <div className="flex justify-between">
-          <a className="comment-crop link 5 black pr4 pb3 right" href="#0" onClick={() => { setCommentModal(!commentModal)}} >
+        <div className="flex justify-between pb3">
+          <a className="commentCrop link 5 black pr4 right" href="#0" onClick={() => { setCommentModal(!commentModal)}} >
               {/* <img className="commentIcon" src={comment_icon} alt=""/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
               {/* &nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
               {/* <CommentIcon className="commentIcon" alt="commentIcon"/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
               {/* <ReactSVG src={comment_icon} class="commentIcon"/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
               {/* <CommentSVG/>&nbsp; <div className="comment-count helvetica dim" style={{display: "inline", color: "#A7A7A7"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} </div> */}
-              <CommentSVG/> 
+              <CommentSVG/>&nbsp;
               <div className="commentCount"> 
                 {props.post.post_comments.length} 
               </div>
           </a>
-          <div>
-            <a className="shaka-crop link b f5 black pr2 right" href="#0">
+          <div className="link f5 pr1 helvetica">
+            <div className="shakaIcon inline link" href="#0">
               { createShakaLoading === false && deleteShakaLoading === false
                 ?
-                  (shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true)
+                  shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
                     ?
-                      <img className="shaka-gold" src={shaka_gold} id="shakaed" alt="" onClick={() => {findExactPostClapToDelete();}}/>
+                      <div className="">
+                        {/* <p>user shakaed this post</p> */}
+                        <img className="shakaGold" src={shaka_gold} id="shakaed" alt="" onClick={() => {findExactPostClapToDelete();}}/>
+                        <div className="shakaCount dim pointer">{props.post.post_claps.length}</div>
+                      </div>
                     :
-                      <img className="shaka" src={shaka} alt="" id="notshakaed" onClick={() => {createPostShaka({ variables: { post_id: props.post.id } });}}/>
+                      <div className="">
+                        {/* <p>user has not shakaed this post</p> */}
+                        <img className="shaka" src={shaka} alt="" id="notshakaed" onClick={() => {createPostShaka({ variables: { post_id: props.post.id } });}}/>
+                        <div className="shakaCount dim pointer" >{props.post.post_claps.length}</div>
+                      </div>
                 :
                   shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
                     ?
-                      // {/* <p>delete shaka loading</p> */}
-                      <img className="shaka" src={shaka} alt="" />
+                      <div className="">
+                        {/* <p>delete shaka loading</p> */}
+                        <img className="shaka" src={shaka} alt="" />
+                        <div className="shakaCount dim pointer" href="#0">{props.post.post_claps.length - 1}</div>
+                        {createShakaError && console.log(createShakaError)}
+                        {deleteShakaError && console.log(deleteShakaError)}
+                      </div>
                     :
-                      // {/* <p>loading shaka hasn't happend yet</p> */}
-                      <img className="shaka-gold" src={shaka_gold} alt="" />
-              }
-            </a>
-            <a className="link dim f5 gray right helvetica" style={{color: "#A8A8A8"}} href="#0">
-              { createShakaLoading && (props.post.post_claps) && props.post.post_claps.length + 1 !== 1 && props.post.post_claps.length + 1 + " shakas"}
-              { createShakaLoading && (props.post.post_claps) && props.post.post_claps.length + 1 === 1 && props.post.post_claps.length + 1 + " shaka"}
-              { deleteShakaLoading && (props.post.post_claps) && props.post.post_claps.length - 1 !== 1 && props.post.post_claps.length - 1 + " shakas"}
-              { deleteShakaLoading && (props.post.post_claps) && props.post.post_claps.length - 1 === 1 && props.post.post_claps.length - 1 + " shaka"}
-              { (!deleteShakaLoading && !createShakaLoading) && (props.post.post_claps) && props.post.post_claps.length !== 1 && props.post.post_claps.length + " shakas"}
-              { (!deleteShakaLoading && !createShakaLoading) && (props.post.post_claps) && props.post.post_claps.length === 1 && props.post.post_claps.length + " shaka"}
-              {createShakaError && console.log(createShakaError)}
-              {deleteShakaError && console.log(deleteShakaError)}
-            </a>
+                      <div className="">
+                        {/* <p>create shaka loading</p> */}
+                        <img className="shaka-gold" src={shaka_gold} alt="" />
+                        <div className="shakaCount dim pointer" href="#0">{props.post.post_claps.length + 1}</div>
+                        {createShakaError && console.log(createShakaError)}
+                        {deleteShakaError && console.log(deleteShakaError)}
+                      </div>
+              } 
+            </div>
           </div>
         </div>
         {(commentModal === true) && 
