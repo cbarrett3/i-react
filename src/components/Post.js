@@ -7,6 +7,7 @@ import '../styles/Post.css'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { Comment } from './Comment'
+import { Modal } from './Modal'
 import {ReactComponent as CommentIcon} from '../assets/comment.svg'
 import { CommentSVG } from './Icons/CommentSVG'
 import { ReactSVG } from 'react-svg'
@@ -81,6 +82,17 @@ const DELETE_SHAKA_MUTATION = gql`
 `
 
 function Post(props) {
+  const modalContent = (
+    <React.Fragment>
+      <p>
+        Press <code>Esc</code> or click Outside the Modal to exit.
+      </p>
+      <p>
+        Pressing Return also exits the Modal if you haven't changed the focus!
+      </p>
+    </React.Fragment>
+  );
+  const commentText = 'add comment'
   const timestamp = timeago.format(props.post.created_at)
   const { data: currentUser } = useQuery(LOGGED_IN_USER);
   const [commentModal, setCommentModal] = useState(false);
@@ -124,7 +136,7 @@ function Post(props) {
   }
   return (
     <div>
-      <div className="flex flex-column pt3 ph3 helvetica bb b--black-10 posty" style={{cursor: "pointer"}}>
+      <div className={`flex flex-column pt3 ph3 helvetica bt b--black-10 ${props.commentModalView === false ? "posty" : ""}`}>
         <div className="flex w-100 pb3">
           <img
               src="http://tachyons.io/img/logo.jpg"
@@ -141,10 +153,10 @@ function Post(props) {
             {timestamp}
           </a>
         </div>
-        <div className="flex w-90 ml4 ph3 pb1">
+        <div className="flex w-90 ml4 ph3">
             {props.post.content}
         </div>
-        <div className="flex w-90 ml4 ph2 pb3">
+        <div className="flex w-90 ml4 ph3 pb2">
             { props.post.post_tags.length > 0
               ? 
               <div>
@@ -164,60 +176,77 @@ function Post(props) {
                 <div></div>
             }
         </div>
-        <div className="flex justify-between pb3">
-          <a className="commentCrop link 5 black pr4 right" href="#0" onClick={() => { setCommentModal(!commentModal)}} >
-              {/* <img className="commentIcon" src={comment_icon} alt=""/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
-              {/* &nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
-              {/* <CommentIcon className="commentIcon" alt="commentIcon"/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
-              {/* <ReactSVG src={comment_icon} class="commentIcon"/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
-              {/* <CommentSVG/>&nbsp; <div className="comment-count helvetica dim" style={{display: "inline", color: "#A7A7A7"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} </div> */}
-              <CommentSVG/>&nbsp;
-              <div className="commentCount"> 
-                {props.post.post_comments.length} 
+        {props.commentModalView === false &&
+          <div className="flex justify-between pb3">
+            <a className="commentCrop link 5 black pr4 right" href="#0" onClick={() => { setCommentModal(!commentModal)}} >
+                {/* <img className="commentIcon" src={comment_icon} alt=""/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
+                {/* &nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
+                {/* <CommentIcon className="commentIcon" alt="commentIcon"/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
+                {/* <ReactSVG src={comment_icon} class="commentIcon"/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
+                {/* <CommentSVG/>&nbsp; <div className="comment-count helvetica dim" style={{display: "inline", color: "#A7A7A7"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} </div> */}
+                {/* <CommentSVG/>&nbsp; */}
+                {/* {commentModalView === false
+                ? */}
+                <React.Fragment>
+                  <Modal modalProps={commentText} modalContent={<Post post={props.post} commentModalView={true}></Post>}></Modal>
+                  <div className="commentCount">
+                    {props.post.post_comments.length}
+                  </div>
+                </React.Fragment>
+            </a>
+            <div className="link f5 pr1 helvetica">
+              <div className="shakaIcon inline link" href="#0">
+                { createShakaLoading === false && deleteShakaLoading === false
+                  ?
+                    shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
+                      ?
+                        <div className="">
+                          {/* <p>user shakaed this post</p> */}
+                          <img className="shakaGold" src={shaka_gold} id="shakaed" alt="" onClick={() => {findExactPostClapToDelete();}}/>
+                          &nbsp;
+                          <div className="shakaCount dim pointer">{props.post.post_claps.length}</div>
+                        </div>
+                      :
+                        <div className="">
+                          {/* <p>user has not shakaed this post</p> */}
+                          <img className="shaka" src={shaka} alt="" id="notshakaed" onClick={() => {createPostShaka({ variables: { post_id: props.post.id } });}}/>
+                          &nbsp;
+                          <div className="shakaCount dim pointer" >{props.post.post_claps.length}</div>
+                        </div>
+                  :
+                    shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
+                      ?
+                        <div className="">
+                          {/* <p>delete shaka loading</p> */}
+                          <img className="shaka" src={shaka} alt="" />
+                          &nbsp;
+                          <div className="shakaCount dim pointer" href="#0">{props.post.post_claps.length - 1}</div>
+                          {createShakaError && console.log(createShakaError)}
+                          {deleteShakaError && console.log(deleteShakaError)}
+                        </div>
+                      :
+                        <div className="">
+                          {/* <p>create shaka loading</p> */}
+                          <img className="shakaGold" src={shaka_gold} alt="" />
+                          &nbsp;
+                          <div className="shakaCount dim pointer" href="#0">{props.post.post_claps.length + 1}</div>
+                          {createShakaError && console.log(createShakaError)}
+                          {deleteShakaError && console.log(deleteShakaError)}
+                        </div>
+                  } 
               </div>
-          </a>
-          <div className="link f5 pr1 helvetica">
-            <div className="shakaIcon inline link" href="#0">
-              { createShakaLoading === false && deleteShakaLoading === false
-                ?
-                  shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
-                    ?
-                      <div className="">
-                        {/* <p>user shakaed this post</p> */}
-                        <img className="shakaGold" src={shaka_gold} id="shakaed" alt="" onClick={() => {findExactPostClapToDelete();}}/>
-                        <div className="shakaCount dim pointer">{props.post.post_claps.length}</div>
-                      </div>
-                    :
-                      <div className="">
-                        {/* <p>user has not shakaed this post</p> */}
-                        <img className="shaka" src={shaka} alt="" id="notshakaed" onClick={() => {createPostShaka({ variables: { post_id: props.post.id } });}}/>
-                        <div className="shakaCount dim pointer" >{props.post.post_claps.length}</div>
-                      </div>
-                :
-                  shakaAuthorIDs.includes(currentUser.getLoggedInUser.id) === true
-                    ?
-                      <div className="">
-                        {/* <p>delete shaka loading</p> */}
-                        <img className="shaka" src={shaka} alt="" />
-                        <div className="shakaCount dim pointer" href="#0">{props.post.post_claps.length - 1}</div>
-                        {createShakaError && console.log(createShakaError)}
-                        {deleteShakaError && console.log(deleteShakaError)}
-                      </div>
-                    :
-                      <div className="">
-                        {/* <p>create shaka loading</p> */}
-                        <img className="shaka-gold" src={shaka_gold} alt="" />
-                        <div className="shakaCount dim pointer" href="#0">{props.post.post_claps.length + 1}</div>
-                        {createShakaError && console.log(createShakaError)}
-                        {deleteShakaError && console.log(deleteShakaError)}
-                      </div>
-              } 
             </div>
           </div>
-        </div>
-        {(commentModal === true) && 
+        }
+        {(props.postModalView === true) && 
           <div className="tl">
             {props.post.post_comments.map((comment, index) => <Comment comment={comment} user={currentUser.getLoggedInUser} key={index} updateCacheAfterPostCommentShakaDeletion={updateCacheAfterPostCommentShakaDeletion} updateCacheAfterPostCommentShakaCreation={updateCacheAfterPostCommentShakaCreation}/>)}
+          </div>
+        }
+        {(props.commentModalView === true) && 
+          <div className="tl">
+            {/* TODO add updateCommentWithNewComment callback to props */}
+            <Comment commentModalView={true} user={currentUser.getLoggedInUser}/>
           </div>
         }
       </div>

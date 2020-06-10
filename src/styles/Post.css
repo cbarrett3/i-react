@@ -1,5 +1,6 @@
 .posty:hover{
     background-color:#f7fcfa;
+    cursor: pointer;
     /* background-color: #f2f5f4; */
  }
  .comment-crop {
@@ -17,11 +18,11 @@
     width: 22px;
     height: auto;
     margin: 0 0 -8px 0;
-    padding: 2px;
+    padding: 5px;
 }
 .commentIcon:hover {
     fill: #28d495;
-    background-color: #d1ece3;
+    background-color: #e3f3ef;
     border-radius: 100px;
 }
 
@@ -32,7 +33,7 @@
 }
 
 .commentCount:hover {
-    color: #28d495;
+    /* color: #28d495; */
 }
 
 .shakaIcon img {

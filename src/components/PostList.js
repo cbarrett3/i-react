@@ -124,7 +124,7 @@ function PostList(props) {
                 ? 
                 <div className="tl" style={{height: "100vh", overflow: "scroll"}}>
                     {console.log(data.postsFeed)}
-                    {data.postsFeed.map((post, index) => <Post post={post} key={index} updateCacheAfterPostShakaDeletion={updateCacheAfterPostShakaDeletion} updateCacheAfterPostCommentShakaDeletion={updateCacheAfterPostCommentShakaDeletion} updateCacheAfterPostCommentShakaCreation={updateCacheAfterPostCommentShakaCreation}/>)}
+                    {data.postsFeed.map((post, index) => <Post post={post} key={index} commentModalView={false} postModalView={false} updateCacheAfterPostShakaDeletion={updateCacheAfterPostShakaDeletion} updateCacheAfterPostCommentShakaDeletion={updateCacheAfterPostCommentShakaDeletion} updateCacheAfterPostCommentShakaCreation={updateCacheAfterPostCommentShakaCreation}/>)}
                 </div>
                 :
                 <div></div>

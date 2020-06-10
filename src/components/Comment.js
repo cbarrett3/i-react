@@ -27,7 +27,7 @@ const DELETE_POST_COMMENT_SHAKA_MUTATION = gql`
 
 export function Comment(props) {
     var postCommentShakaAuthorIDs = [0];
-    if(props.comment.post_comment_claps) {
+    if(props.comment && props.comment.post_comment_claps) {
         props.comment.post_comment_claps.map(shaka =>
             postCommentShakaAuthorIDs = postCommentShakaAuthorIDs.concat(shaka.author.id)
       )
@@ -69,17 +69,27 @@ export function Comment(props) {
                             src="http://tachyons.io/img/logo.jpg"
                             className="br-pill h2-m w2-m h2 w2 mt1 mr1" alt="avatar">
                         </img>
+                        {props.commentModalView === false && props.comment
+                        ?
                         <div className="">
                             <span className="f5 db b black mh2">{props.comment.author.first} {props.comment.author.last}</span>
                             <span className="f6 db gray mh2">@{props.comment.author.username}</span>
                         </div>
-                        <div className="flex w-90 ml3 ph3 pt2 mt1 br3" style={{ backgroundColor: "#dcdcdc" }}>
-                            {props.comment.content}
+                        :
+                        <div className="">
+                            <span className="f5 db b black mh2">{props.user.first} {props.user.last}</span>
+                            {/* <span className="f6 db gray mh2">@{props.user.username}</span> */}
                         </div>
+                        }
+                        {props.commentModalView === false && 
+                            <div className="flex w-90 ml3 ph3 pt2 mt1 br3" style={{ backgroundColor: "#dcdcdc" }}>
+                                {props.comment.content}
+                            </div>
+                        }
                     </div>
                     <div className="tr">
                         <a className="shaka-crop link b f5 black pr2 right" href="#0">
-                            {createPostCommentShakaLoading === false && deletePostCommentShakaLoading === false
+                            {(createPostCommentShakaLoading === false && deletePostCommentShakaLoading === false && props.commentModalView === false)
                                 ?
                                 (postCommentShakaAuthorIDs.includes(props.user.id) === true)
                                     ?
@@ -96,33 +106,20 @@ export function Comment(props) {
                                     <img className="shaka-gold" src={shaka_gold} alt="" />
                             }
                         </a>
-                        <a className="link underline-hover f5 gray right helvetica" style={{ color: "#A8A8A8" }} href="#0">
-                                { createPostCommentShakaLoading && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length + 1 !== 1 && props.comment.post_comment_claps.length + 1 + " shakas"}
-                                { createPostCommentShakaLoading && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length + 1 === 1 && props.comment.post_comment_claps.length + 1 + " shaka"}
-                                { deletePostCommentShakaLoading && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length - 1 !== 1 && props.comment.post_comment_claps.length - 1 + " shakas"}
-                                { deletePostCommentShakaLoading && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length - 1 === 1 && props.comment.post_comment_claps.length - 1 + " shaka"}
-                                { (!deletePostCommentShakaLoading && !createPostCommentShakaLoading) && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length !== 1 && props.comment.post_comment_claps.length + " shakas"}
-                                { (!deletePostCommentShakaLoading && !createPostCommentShakaLoading) && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length === 1 && props.comment.post_comment_claps.length + " shaka"}
-                                {createPostCommentShakaError && console.log(createPostCommentShakaError)}
-                                {deletePostCommentShakaError && console.log(deletePostCommentShakaError)}
-                        </a>
+                        {props.commentModalView === false &&
+                            <a className="link underline-hover f5 gray right helvetica" style={{ color: "#A8A8A8" }} href="#0">
+                                    { createPostCommentShakaLoading && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length + 1 !== 1 && props.comment.post_comment_claps.length + 1 + " shakas"}
+                                    { createPostCommentShakaLoading && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length + 1 === 1 && props.comment.post_comment_claps.length + 1 + " shaka"}
+                                    { deletePostCommentShakaLoading && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length - 1 !== 1 && props.comment.post_comment_claps.length - 1 + " shakas"}
+                                    { deletePostCommentShakaLoading && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length - 1 === 1 && props.comment.post_comment_claps.length - 1 + " shaka"}
+                                    { (!deletePostCommentShakaLoading && !createPostCommentShakaLoading) && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length !== 1 && props.comment.post_comment_claps.length + " shakas"}
+                                    { (!deletePostCommentShakaLoading && !createPostCommentShakaLoading) && (props.comment.post_comment_claps) && props.comment.post_comment_claps.length === 1 && props.comment.post_comment_claps.length + " shaka"}
+                                    {createPostCommentShakaError && console.log(createPostCommentShakaError)}
+                                    {deletePostCommentShakaError && console.log(deletePostCommentShakaError)}
+                            </a>
+                        }   
                     </div>
-                    {/* added modal */}
-                    {/* <div class="container">
-                        <div class="interior">
-                            <a class="btn" href="#open-modal">👋 Basic CSS-Only Modal</a>
-                        </div>
-                        </div>
-                        <div id="open-modal" class="modal-window">
-                        <div>
-                            <a href="#" title="Close" class="modal-close">Close</a>
-                            <h1>Voilà!</h1>
-                            <div>A CSS-only modal based on the :target pseudo-class. Hope you find it helpful.</div>
-                            <div><small>Check out</small></div>
-                            {/* <a href="https://aminoeditor.com" target="_blank">👉 Amino: Live CSS Editor for Chrome</div> */}
-                            </div>
-                    // </div> */}
-                // </div>
+               </div>
             }
         </div>
     );
