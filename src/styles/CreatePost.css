@@ -64,3 +64,8 @@ button:focus {
 .select-css:disabled:hover, .select-css[aria-disabled=true] {
 	border-color: #aaa;
 }
+
+.avatar {
+	width: 3.5em;
+	height: auto;
+}

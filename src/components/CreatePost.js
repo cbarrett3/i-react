@@ -143,10 +143,10 @@ function CreatePost(props) {
               <div className="flex mb2">
                 <img
                   src="http://tachyons.io/img/logo.jpg"
-                  className="br-pill h2-m w2-m h2 w2 mt1 mr1" alt="avatar">
+                  className="avatar br-pill" alt="avatar">
                 </img>
                 <div className="">
-                  <span className="f5 db b black mh2">{user.first} {user.last}</span>
+                  <span className="f5 db b black ph2">{user.first} {user.last}</span>
                   <span className="f6 db gray mh2">@{user.username}</span>
                 </div>
                 <textarea

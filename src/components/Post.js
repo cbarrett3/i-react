@@ -140,7 +140,7 @@ function Post(props) {
         <div className="flex w-100 pb3">
           <img
               src="http://tachyons.io/img/logo.jpg"
-              className="br-pill h2-m w2-m h2 w2 mr2" alt="avatar">
+              className="avatarr br-pill mr2" alt="avatarr" >
           </img>
           <div className="">
             <span className="f5 db b black mh2">{props.post.author.first} {props.post.author.last}</span>
