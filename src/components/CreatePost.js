@@ -156,6 +156,7 @@ function CreatePost(props) {
                   placeholder="Got Juice?"
                   onChange={e => setContent( e.target.value )}
                   className="db f4 hover-black w-60 measure ba b--white ph2"
+                  style={{resize: "none"}}
                   aria-describedby="post-content">
                 </textarea>
               </div>

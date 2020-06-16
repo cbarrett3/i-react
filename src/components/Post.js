@@ -7,6 +7,7 @@ import '../styles/Post.css'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { Comment } from './Comment'
+import { CreateComment } from './CreateComment'
 import { Modal } from './Modal'
 import {ReactComponent as CommentIcon} from '../assets/comment.svg'
 import { CommentSVG } from './Icons/CommentSVG'
@@ -153,10 +154,10 @@ function Post(props) {
             {timestamp}
           </a>
         </div>
-        <div className="flex w-90 ml4 ph3">
+        <div className="flex f4 w-90 ml4 ph4">
             {props.post.content}
         </div>
-        <div className="flex w-90 ml4 ph3 pb2">
+        <div className="flex w-90 ml4 ph4 pb2">
             { props.post.post_tags.length > 0
               ? 
               <div>
@@ -238,15 +239,19 @@ function Post(props) {
             </div>
           </div>
         }
-        {(props.postModalView === true) && 
-          <div className="tl">
+        {/* showCommentsModal */}
+        {/* {(props.postModalView === true) && 
+            <div className="tl">
             {props.post.post_comments.map((comment, index) => <Comment comment={comment} user={currentUser.getLoggedInUser} key={index} updateCacheAfterPostCommentShakaDeletion={updateCacheAfterPostCommentShakaDeletion} updateCacheAfterPostCommentShakaCreation={updateCacheAfterPostCommentShakaCreation}/>)}
           </div>
-        }
-        {(props.commentModalView === true) && 
-          <div className="tl">
+        } */}
+        {/* showCreateCommentModal */}
+        {props.commentModalView === true && 
+          <div>
+            <div className="ml4 ph4 mt3 gray">Replying to @{props.post.author.username}</div>
             {/* TODO add updateCommentWithNewComment callback to props */}
-            <Comment commentModalView={true} user={currentUser.getLoggedInUser}/>
+            <CreateComment commentModalView={true} user={currentUser.getLoggedInUse}/>
+            {/* <Comment commentModalView={true} user={currentUser.getLoggedInUser}/> */}
           </div>
         }
       </div>
