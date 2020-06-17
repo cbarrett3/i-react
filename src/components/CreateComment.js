@@ -46,7 +46,7 @@ export function CreateComment(props) {
         <div>
             {props &&
                 // <div className="flex flex-column pt3 pb2 helvetica">
-                <div className="pt3 pb2 helvetica">
+                <div className="pt3 helvetica">
                     <img
                         src="http://tachyons.io/img/logo.jpg"
                         // src = props.user.profilepicurl
@@ -56,9 +56,9 @@ export function CreateComment(props) {
                         id="post"
                         name="post"
                         // value={content}
-                        placeholder="Comment your reply"
+                        placeholder="Share your thoughts"
                         // onChange={e => setContent(e.target.value)}
-                        className="db f5 hover-black w-60 measure b--none ph3"
+                        className="db f4 hover-black w-60 measure b--none ph3"
                         style={{resize: "none", display: "inline"}}
                         aria-describedby="post-content">
                     </textarea>
@@ -67,9 +67,9 @@ export function CreateComment(props) {
                             {props.comment.content}
                         </div>
                     }
-                    <div className="mt4">
+                    <div className="mt4 pb3 b tr">
                       <a 
-                        className='f5 link dim br3 ph3 pv2 white bg-pink helvetica' 
+                        className='f5 link dim br-pill ph3 pv2 mb3 white bg-pink helvetica' 
                         style={{backgroundColor: '#fd5956'}}
                         href='#0' 
                         // onClick={() => {createTagsandPostMutation({ variables: { content: content, priv_post: priv_post, tags: tags } })

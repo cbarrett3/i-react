@@ -154,7 +154,7 @@ function Post(props) {
             {timestamp}
           </a>
         </div>
-        <div className="flex f4 w-90 ml4 ph4">
+        <div className="content flex f4 w-90 ml4 ph4">
             {props.post.content}
         </div>
         <div className="flex w-90 ml4 ph4 pb2">
@@ -248,7 +248,7 @@ function Post(props) {
         {/* showCreateCommentModal */}
         {props.commentModalView === true && 
           <div>
-            <div className="ml4 ph4 mt3 gray">Replying to @{props.post.author.username}</div>
+            <div className="ml4 ph4 mb3 mt3 gray helvetica">Replying to @{props.post.author.username}</div>
             {/* TODO add updateCommentWithNewComment callback to props */}
             <CreateComment commentModalView={true} user={currentUser.getLoggedInUse}/>
             {/* <Comment commentModalView={true} user={currentUser.getLoggedInUser}/> */}

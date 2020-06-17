@@ -64,3 +64,8 @@
 	width: 3em;
 	height: auto;
 }
+
+.content {
+    font-size: 1.1em;
+    color: rgb(32, 32, 32)
+}

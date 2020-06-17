@@ -192,7 +192,7 @@ function CreatePost(props) {
                 </div>
                 <div className="mt4">
                       <a 
-                        className='f5 link dim br3 ph3 pv2 white bg-pink helvetica' 
+                        className='f5 link b dim br-pill ph3 pv2 white bg-pink helvetica' 
                         style={{backgroundColor: '#fd5956'}}
                         href='#0' 
                         onClick={() => {createTagsandPostMutation({ variables: { content: content, priv_post: priv_post, tags: tags } })
