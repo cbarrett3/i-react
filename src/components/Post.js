@@ -178,7 +178,7 @@ function Post(props) {
             }
         </div>
         {props.commentModalView === false &&
-          <div className="flex justify-between pb1">
+          <div className="flex justify-between pb2">
             <a className="commentCrop link 5 black pr4 right" href="#0" onClick={() => { setCommentModal(!commentModal)}} >
                 {/* <img className="commentIcon" src={comment_icon} alt=""/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
                 {/* &nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}

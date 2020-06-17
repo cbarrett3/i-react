@@ -4,6 +4,7 @@ import Login from './Login'
 import Header from './Header'
 import Footer from './Footer'
 import { Switch, Route } from 'react-router-dom'
+import "../styles/App.css"
 
 class App extends Component {
   render() {
@@ -18,7 +19,7 @@ class App extends Component {
       //   </div>
       //   <Footer/>
       // </div >
-      <div className="center bt" style={{width: "95%"}}>
+      <div className="websiteArea center">
         <Switch>
           <Route exact path="/" component={Login} />
           <Route component={Header} />

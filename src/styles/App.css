@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,17 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+.websiteArea {
+  width: 95%;
+  max-height: 100%
 }
+
+@media only screen and (max-width: 991px){
+  /* CSS that should be displayed if width is equal to or less than 991px goes here */
+  .websiteArea {
+    width: 97%;
+    max-height: 100%
+  }
+ }

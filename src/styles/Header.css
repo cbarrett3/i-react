@@ -1,0 +1,14 @@
+
+.headerArea {
+    width: 95%;
+    max-height: 100%
+  }
+  
+  @media only screen and (max-width: 991px){
+    /* CSS that should be displayed if width is equal to or less than 991px goes here */
+    .headerArea {
+      /* padding-left: .5em;
+      padding-right: .5em; */
+      width: 97%;
+    }
+   }
