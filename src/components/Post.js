@@ -138,7 +138,7 @@ function Post(props) {
   return (
     <div>
       <div className={`flex flex-column pt3 ph3 helvetica bt b--black-10 ${props.commentModalView === false ? "posty" : ""}`}>
-        <div className="flex w-100 pb3">
+        <div className="flex w-100 pb1">
           <img
               src="http://tachyons.io/img/logo.jpg"
               className="avatarr br-pill mr2" alt="avatarr" >
@@ -157,14 +157,14 @@ function Post(props) {
         <div className="content flex f4 w-90 ml4 ph4">
             {props.post.content}
         </div>
-        <div className="flex w-90 ml4 ph4 pb2">
+        <div className="flex w-90 ml4 ph4 ">
             { props.post.post_tags.length > 0
               ? 
               <div>
                 <div className="" id="tags">
                   <ul style={{listStyle: "none", padding: "0"}}>
                     {props.post.post_tags.map((tag, index) =>
-                      <li className="pb2 mt3" key={index}  style={{float: "left", display: "inline-block"}}>
+                      <li className="pb2 mt2" key={index}  style={{float: "left", display: "inline-block"}}>
                         <a className='f6 link dim br3 ph3 pv2 mr1 white bg-green helvetica' href='#0'>
                           {tag.tag.tag}
                         </a>
@@ -178,7 +178,7 @@ function Post(props) {
             }
         </div>
         {props.commentModalView === false &&
-          <div className="flex justify-between pb3">
+          <div className="flex justify-between pb1">
             <a className="commentCrop link 5 black pr4 right" href="#0" onClick={() => { setCommentModal(!commentModal)}} >
                 {/* <img className="commentIcon" src={comment_icon} alt=""/>&nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
                 {/* &nbsp; <div className="helvetica gray dim" style={{display: "inline", color: "#A8A8A8"}} onClick={() => { setCommentModal(!commentModal)}} > {props.post.post_comments.length} comments </div> */}
