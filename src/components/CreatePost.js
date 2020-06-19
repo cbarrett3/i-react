@@ -3,7 +3,8 @@ import { Query } from 'react-apollo'
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag'
 import '../styles/CreatePost.css';
-import { POST_FEED_QUERY } from './PostList'
+import { POST_FEED_QUERY } from './PostList';
+import publicEarth from '../assets/public-earth.svg'
 
 const CREATE_POST_AND_TAGS_MUTATION = gql`
   mutation CreateTagsandPostMutation($tags: [String], $content: String!, $priv_post: Boolean) {
@@ -170,12 +171,12 @@ function CreatePost(props) {
                     )}
                 </div>
                 <div>
-                  <label className="">
+                  {/* <label className="">
                     <select className="select-css" onChange={e => setPriv_Post( e.target.value )}>
                       <option defaultValue priv_post="false">Public</option>
                       <option priv_post="true">Private </option>
                     </select>
-                  </label>
+                  </label> */}
                 </div>
               </div>
               <div className="flex justify-between">
@@ -191,8 +192,10 @@ function CreatePost(props) {
                   </ul>
                 </div>
                 <div className="mt4">
+                  <ul style={{listStyle: "none", padding: "0"}}>
+                    <li className="pb2 mt3" style={{float: "left", display: "inline-block"}}>
                       <a 
-                        className='f5 link b dim br-pill ph3 pv2 white bg-pink helvetica' 
+                        className='f5 link b dim br-pill ph3 ml2 pv2 white bg-pink helvetica' 
                         style={{backgroundColor: '#B9732F'}}
                         href='#0' 
                         onClick={() => {createTagsandPostMutation({ variables: { content: content, priv_post: priv_post, tags: tags } })
@@ -200,9 +203,19 @@ function CreatePost(props) {
                           setTags([]);}}>
                         Post
                       </a>
+                    </li>
+                    <li className="pb2 mt3" style={{float: "right", display: "inline-block"}}>
+                      <div className="pt6 ml2" style={{display: "inline"}}>
+                        <img
+                          src={publicEarth}
+                          className="publicEarthIcon" alt="publicEarthIcon">
+                        </img>
+                      </div>
                       {postSubmitting && <p>Loading...</p>}
                       {postError && <p>Error Submitting...</p>}
                       {newPostAndTagData && console.log(newPostAndTagData[0])}
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

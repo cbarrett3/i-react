@@ -14,7 +14,7 @@ class Home extends Component {
                     <a className="link dim br-pill pv1 dib green bg-light-gray b" style={{backgroundColor: "#f7f8fc", color: "#437FC7"}} href="#0"> Posts </a>
                 </div>
             </div>
-            <div className="fl w-50-ns w-100-m" style={{marginTop: "3.2em"}}>
+            <div className="fl w-50-ns w-100-m" style={{marginTop: "2.7em"}}>
                 <div className="bg-white">
                     <CreatePost></CreatePost>
                     <br/>
@@ -22,7 +22,7 @@ class Home extends Component {
                     <br/>
                     {/* <QuestionList></QuestionList> */}
                 </div>
-                {/* <Footer></Footer> */}
+                <Footer></Footer>
             </div>
             {/* <div className="siders fl w-25-ns br4 dn-m bg-light-gray" style={{backgroundColor: "#f7f8fc", marginTop: "4em"}}>
                 <div className="pa1 tc">
@@ -31,7 +31,7 @@ class Home extends Component {
                 </div>
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             </div> */}
-            <div className="fl w-25-ns dn-m br4" style={{marginTop: "5em"}}>
+            <div className="relative fl w-25-ns dn-m br4 db" style={{marginTop: "5em"}}>
                 <div className="rightSiders fixed pa1 tc br4" style={{backgroundColor: "#f7f8fc", minHeight: "70%", width: "22%"}}>
                     <a className="link dim br-pill pr4 pr2-m pv1 dib gray bg-light-gray" style={{backgroundColor: "#f7f8fc"}} href="#0">Followers</a>
                     <a className="link dim br-pill pv1 dib green bg-light-gray b" style={{backgroundColor: "#f7f8fc", color: "#437FC7"}} href="#0">Discover</a>
