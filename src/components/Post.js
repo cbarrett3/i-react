@@ -165,7 +165,7 @@ function Post(props) {
                   <ul style={{listStyle: "none", padding: "0"}}>
                     {props.post.post_tags.map((tag, index) =>
                       <li className="pb2 mt2" key={index}  style={{float: "left", display: "inline-block"}}>
-                        <a className='f6 link dim br3 ph3 pv2 mr1 white bg-green helvetica' href='#0'>
+                        <a className='tag f6 link dim br3 ph3 pv2 mr1 white helvetica' href='#0'>
                           {tag.tag.tag}
                         </a>
                       </li>

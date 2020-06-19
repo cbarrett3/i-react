@@ -1,5 +1,5 @@
 .posty:hover{
-    background-color:#f7fcfa;
+    background-color:#f7f8fc;
     cursor: pointer;
     /* background-color: #f2f5f4; */
  }
@@ -68,4 +68,8 @@
 .content {
     font-size: 1em;
     color: rgb(32, 32, 32)
+}
+
+.tag {
+    background-color: #437FC7
 }

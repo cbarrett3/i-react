@@ -58,20 +58,89 @@ function Header(props) {
         //         </Link>
         //     )}
         // </div>
-        <header className="headerArea bg-green ph3 pv3 pv4-ns ph4-m ph5-l fixed helvetica">
-            <nav class="f4 b fixed">
-                <a class="link dim black dib mr3" href="#0" title="Home">
-                    {authToken && (
-                        <Link to="/home" className="App-logo b no-underline" style={{color: '#fd5956'}}>
-                            Home
-                        </Link>
-                    )}
-                </a>
-                <a class="link dim black dib mr3" href="#" title="About">Profile</a>
-                <a class="link dim black dib mr3" href="#" title="Store">Settings</a>
-                <a class="link dim black dib" href="#" title="Contact">Logout</a>
-            </nav>
-        </header>
+
+
+
+        // <header className="headerArea fixed">
+        //     <nav className="items w-100 tl b fixed">
+        //         <div className="w-75">
+        //             {authToken && (
+        //                 <a className="link dim dib mr3" href="#0" title="Home">
+        //                         <Link to="/home" className="home b no-underline">
+        //                             Home
+        //                         </Link>
+        //                 </a>
+        //             )}
+        //             {authToken && (
+        //                 <a className="item link dim dib mr3 pointer" href="#0" title="About">
+        //                     <div>
+        //                         Profile
+        //                     </div>
+        //                 </a>
+        //             )}
+        //             {authToken ? (
+        //                 <div
+        //                     className="item link dim dib mr3 pointer"
+        //                     onClick={() => {
+        //                         localStorage.removeItem(AUTH_TOKEN)
+        //                         client.resetStore()
+        //                         props.history.push(`/`)
+        //                     }}>
+        //                     Log Out
+        //                 </div>
+        //             ): ( 
+        //                 <Link to="/" className="mr3 gray b no-underline dim">
+        //                     Log In
+        //                 </Link>
+        //             )}
+        //         </div>
+        //         <div className="w-2 tr">
+        //             {authToken && (
+        //                 <a className="settingsLink link dim" href="#0" title="Home">
+        //                         <Link to="/settings" className="settings b no-underline">
+        //                             Settings
+        //                         </Link>
+        //                 </a>
+        //             )}
+        //         </div>
+        //     </nav>
+        // </header>
+
+        <nav class="headerArea dt w-100 border-box pa2 fixed bg-white">
+            <a class="dtc black link dim w-15" href="#0" title="Home">
+                {/* <img src="http://tachyons.io/img/logo.jpg" class="dib w2 h2 br-100" alt="Site Name"/> */}
+                logo here
+            </a>
+            <div class="dtc v-mid w-85 tr">
+                {authToken && (
+                    <a className="link dim dib mr3 mr4-ns f5 f4-ns" href="#0" title="Home">
+                            <Link to="/home" className="home b no-underline">
+                                Home
+                            </Link>
+                    </a>
+                )}
+                {authToken && (
+                    <a className="link dim dib mr3 mr4-ns f5 f4-ns black b pointer" href="#0" title="About">
+                            Profile
+                    </a>
+                )}
+                {authToken ? (
+                    <div
+                        className="logout link dim dib mr4-l f5 f4-ns black b pointer"
+                        onClick={() => {
+                            localStorage.removeItem(AUTH_TOKEN)
+                            client.resetStore()
+                            props.history.push(`/`)
+                        }}>
+                        Log Out
+                    </div>
+                    ): ( 
+                    <Link to="/" className="link dim dib mr3 mr4-ns f5 f4-ns black b pointer">
+                        Log In
+                    </Link>
+                )}
+            </div>
+        </nav>
     )
 }
 
