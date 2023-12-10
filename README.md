@@ -1,4 +1,5 @@
-## **<i>i</i>** : a generic social networking web app
+## **<i>i</i> react apollo**
+A generic social networking web app
 
 [![Open Source](https://badgen.net/badge/Open%20Source/%E2%9C%93/blue?icon=github)](https://github.com/cbarrett3/i-react-apollo)
 
